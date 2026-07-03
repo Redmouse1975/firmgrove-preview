@@ -1,0 +1,1352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Firmgrove for startups. You build the dream. Firmgrove runs the startup.</title>
+<meta name="description" content="The idea sprouts, the startup grows, the company stands. Three editions, one plant: evaluated free, raised for a flat price, run whole when the money arrives.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400;1,6..72,500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --porcelain:#F2F3F6;
+    --surface:#FFFFFF;
+    --ink:#171B25;
+    --slate:#5C6473;
+    --hairline:#E2E5EB;
+    --rose:#B23A5C;
+    --rose-light:#E58CA6;
+    --rose-deep:#8F2C49;
+    --sage:#3E7C5B;
+    --night:#12151D;
+    --stemgray:#7A8294;
+    --sans:'Sora',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+    --serif:'Newsreader',Georgia,serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scrollbar-gutter:stable}
+  body{background:var(--porcelain);font-family:var(--sans);color:var(--ink);overflow-x:hidden}
+
+  /* ---------- top nav: the locked header ---------- */
+  #topnav{
+    position:fixed;top:0;left:0;right:0;z-index:60;
+    padding:12px 24px;
+    background:rgba(18,21,29,.96);backdrop-filter:blur(8px);
+    border-bottom:1px solid rgba(226,229,235,.12);
+  }
+  #topnav .inner{
+    max-width:1040px;margin:0 auto;
+    display:flex;align-items:center;justify-content:space-between;
+  }
+  #topnav .brand{
+    display:inline-flex;align-items:center;gap:0;
+    font-family:var(--sans);font-weight:700;font-size:19px;color:#FFFFFF;
+    letter-spacing:-0.01em;text-decoration:none;
+  }
+  #topnav .brand svg{width:26px;height:26px;display:block;flex-shrink:0;margin-right:4px}
+  #topnav .brand .dot{
+    display:inline-block;width:6px;height:6px;border-radius:50%;
+    background:var(--rose);margin-left:3px;align-self:flex-end;margin-bottom:5px;
+    font-size:0;line-height:0;color:transparent;overflow:hidden;
+  }
+  #topnav .links{display:flex;align-items:center;gap:22px}
+  #topnav .links a{font-family:var(--sans);font-size:14px;color:#A9B1C0;text-decoration:none}
+  #topnav .links a:hover{color:#FFFFFF}
+  #topnav .lang{display:inline-flex;gap:6px;margin-left:6px}
+  #topnav .lang button{
+    background:transparent;border:0;color:var(--rose);font-family:var(--sans);
+    font-size:12px;padding:2px 4px;cursor:pointer;opacity:.55;
+  }
+  #topnav .lang button[aria-pressed="true"]{opacity:1;font-weight:700}
+  @media(max-width:760px){#topnav .links a{display:none}}
+
+  /* ---------- the three-act scene ---------- */
+  #scene-wrap{height:100vh;position:relative}
+  #stage{
+    position:absolute;inset:0;overflow:hidden;
+    background:
+      radial-gradient(1200px 700px at 50% 55%, #FFFFFF 0%, rgba(255,255,255,0) 62%),
+      var(--porcelain);
+  }
+  #tree{position:absolute;inset:0;z-index:2;will-change:transform}
+  #wood{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+  #wood path.limb{stroke:var(--stemgray);fill:none;stroke-linecap:round}
+  #wood line.leader{stroke:var(--rose-light);stroke-width:1.2}
+
+  /* the idea: the small dimensional sprout at the root (its stem is drawn by the trunk) */
+  #ideaSprout{
+    position:absolute;left:50%;top:72%;transform:translate(-50%,-88%);
+    width:64px;aspect-ratio:1/1;z-index:3;pointer-events:none;
+  }
+  #ideaSprout svg{width:100%;height:100%;overflow:visible}
+  #ideaSprout .leaf{transform-box:fill-box;opacity:0;filter:drop-shadow(0 4px 10px rgba(143,44,73,.25))}
+  #ideaSprout .leaf.bot{transform-origin:86% 100%}
+  #ideaSprout .leaf.top{transform-origin:14% 100%}
+
+  #ground{
+    position:absolute;left:50%;top:72%;transform:translate(-50%,-50%);
+    width:240px;height:18px;border-radius:50%;
+    background:radial-gradient(ellipse at center, rgba(23,27,37,.14), rgba(23,27,37,0) 70%);
+    z-index:1;
+  }
+
+  /* canopy leaves */
+  .tleaf{
+    position:absolute;z-index:3;transform:translate(-50%,-50%) scale(0);
+    pointer-events:none;will-change:transform;
+  }
+  .tleaf svg{display:block;overflow:visible;filter:drop-shadow(0 4px 10px rgba(143,44,73,.25))}
+  .tleaf.back{z-index:2;opacity:.55}
+
+  /* chips outside the canopy, wired to leaves */
+  .tag{
+    position:absolute;z-index:5;transform:translate(-50%,-50%) scale(0);
+    background:rgba(255,255,255,.94);border:1px solid var(--hairline);border-radius:8px;
+    padding:5px 11px;white-space:nowrap;
+    font-size:.74rem;font-weight:600;color:var(--ink);
+    box-shadow:0 6px 16px -8px rgba(23,27,37,.3);
+    will-change:transform;
+  }
+  @media(max-width:720px){.tag{font-size:.56rem;padding:3px 7px}}
+
+  /* the narration: one line, three states */
+  #ideal{
+    position:absolute;left:50%;top:17%;transform:translate(-50%,-50%);
+    z-index:5;text-align:center;white-space:nowrap;
+    font-family:var(--serif);font-style:italic;
+    font-size:clamp(1.5rem,3.2vw,2.3rem);color:var(--ink);
+  }
+  #ideal .line{position:absolute;left:50%;transform:translateX(-50%);top:0;opacity:0;white-space:nowrap}
+  #ideal .line.on{position:relative;left:auto;transform:none;opacity:1}
+  #ideal .cursor{
+    display:inline-block;width:9px;height:1em;background:var(--rose);
+    vertical-align:text-bottom;animation:blink .8s steps(1) infinite;
+  }
+  @keyframes blink{50%{opacity:0}}
+
+  /* the edition, named under the plant */
+  #stagecap{
+    position:absolute;left:50%;top:79%;transform:translateX(-50%);
+    z-index:5;text-align:center;width:100%;
+  }
+  #stagecap .cap{
+    position:absolute;left:50%;transform:translateX(-50%);top:0;opacity:0;white-space:nowrap;
+  }
+  #stagecap .edn{
+    font-family:var(--sans);font-weight:700;font-size:1rem;color:var(--ink);
+  }
+  #stagecap .edn b{color:var(--rose)}
+  #stagecap .edd{
+    font-family:var(--serif);font-style:italic;font-size:.95rem;color:var(--slate);margin-top:4px;
+  }
+
+  /* flanking labels, from the startup act onward */
+  #brainlabel,#complabel{
+    position:absolute;top:70%;transform:translateX(-50%);
+    z-index:4;opacity:0;max-width:250px;text-align:center;
+    font-family:var(--serif);font-size:clamp(1.1rem,2.2vw,1.4rem);color:var(--ink);
+    line-height:1.2;
+  }
+  #brainlabel{left:15%}
+  #complabel{left:85%}
+  .lwrap{display:grid;margin-top:7px}
+  .lset{grid-area:1/1;opacity:0}
+  .lset .sub{
+    font-family:var(--sans);font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--slate);font-weight:600;
+  }
+  .lset .subserif{
+    font-family:var(--serif);font-style:italic;font-size:.76em;
+    color:var(--slate);line-height:1.4;
+  }
+  .lset .hands{
+    font-family:var(--serif);font-style:italic;font-size:.74em;
+    color:var(--rose);margin-top:8px;line-height:1.4;
+  }
+  @media(max-width:1100px){#brainlabel,#complabel{display:none}}
+
+  /* headline */
+  #headline{
+    position:absolute;top:6.5vh;left:0;right:0;text-align:center;z-index:6;
+    padding:0 24px;opacity:0;transform:translateY(14px);pointer-events:none;
+  }
+  #headline .eyebrow{
+    display:inline-block;font-size:.74rem;text-transform:uppercase;letter-spacing:.16em;
+    color:var(--rose);font-weight:600;margin-bottom:12px;
+  }
+  #headline h1{
+    font-size:clamp(1.7rem,4vw,2.8rem);font-weight:600;letter-spacing:-0.02em;
+    line-height:1.12;max-width:760px;margin:0 auto;
+  }
+  #headline .subline{
+    font-family:var(--serif);font-style:italic;color:var(--slate);
+    font-size:clamp(.95rem,1.8vw,1.15rem);margin-top:12px;
+  }
+
+  #hint{
+    position:absolute;bottom:26px;left:0;right:0;text-align:center;z-index:6;
+    font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:var(--slate);
+    animation:hintPulse 2.4s ease-in-out infinite;
+  }
+  @keyframes hintPulse{0%,100%{opacity:.4}50%{opacity:.95}}
+
+  /* ---------- placeholder: the page continues here ---------- */
+  .pain-block{
+    max-width:1040px;margin:96px auto 40px;padding:22px 30px;min-height:132px;
+    display:flex;flex-direction:column;justify-content:center;
+    background:linear-gradient(135deg, rgba(178,58,92,.09), rgba(229,140,166,.05));
+    border:1px solid rgba(178,58,92,.16);border-radius:18px;
+  }
+  .pain{
+    font-family:var(--serif);font-style:italic;font-weight:400;
+    font-size:clamp(1.15rem,2.2vw,1.55rem);color:var(--ink);
+    max-width:820px;padding-left:22px;border-left:3px solid var(--rose);
+    margin-bottom:10px;line-height:1.4;
+  }
+  .pain-who{color:var(--rose);font-size:.85rem;padding-left:25px;font-weight:600}
+  .next-note{
+    max-width:1040px;margin:0 auto 120px;padding:0 30px;
+    color:var(--slate);font-size:.9rem;
+  }
+
+  /* ================= the journey sections ================= */
+  .screen{min-height:100vh;padding:88px 24px 48px;display:flex;align-items:flex-start}
+  .screen.on-surface{background:var(--surface);border-top:1px solid var(--hairline)}
+  .screen.on-porcelain{background:var(--porcelain);border-top:1px solid var(--hairline)}
+  .jwrap{max-width:1120px;margin:0 auto;width:100%}
+  .screen .pain-block{margin:0 0 30px}
+  .duo{display:grid;grid-template-columns:1.25fr 1fr;gap:44px;align-items:center}
+  .duo.rev .fix{order:1}
+  .duo.rev > :first-child{order:2}
+  @media(max-width:860px){
+    .screen{min-height:0;padding:80px 24px}
+    .duo{grid-template-columns:1fr;gap:30px}
+    .duo.rev > :first-child{order:1}
+    .duo.rev .fix{order:2}
+  }
+  .fix{max-width:640px}
+  .fix h2{font-size:clamp(1.3rem,2.4vw,1.8rem);margin-bottom:12px;font-weight:600;letter-spacing:-0.02em}
+  .fix p{color:var(--slate);font-size:.98rem}
+  .fix p b{color:var(--ink);font-weight:600}
+  .dcaption{color:var(--slate);font-size:.88rem;margin-top:16px}
+  .dcaption b{color:var(--ink)}
+  .reveal-j{opacity:0;transform:translateY(22px)}
+
+  .frame{
+    background:#fff;border:1px solid var(--hairline);border-radius:16px;overflow:hidden;
+    box-shadow:0 18px 50px -30px rgba(23,27,37,.16);
+  }
+  .screen.on-surface .frame{background:var(--porcelain)}
+  .framebar{
+    display:flex;align-items:center;gap:10px;padding:12px 18px;
+    border-bottom:1px solid var(--hairline);font-size:.78rem;color:var(--slate);
+  }
+  .framebar .fdot{width:8px;height:8px;border-radius:50%;background:var(--rose)}
+  .framebody{padding:20px 20px}
+
+  /* idea evaluation */
+  .eval-in{
+    font-family:var(--serif);font-style:italic;font-size:.98rem;color:var(--ink);
+    padding:12px 16px;background:#fff;border:1px solid var(--hairline);border-radius:10px;margin-bottom:16px;
+  }
+  .eval-row{display:grid;grid-template-columns:130px 1fr 34px;gap:10px;align-items:center;font-size:.82rem;color:var(--slate);margin-bottom:8px}
+  .eval-row b{color:var(--ink);text-align:right}
+  .ebar{height:6px;border-radius:3px;background:var(--hairline);overflow:hidden}
+  .ebar i{display:block;height:100%;width:var(--w);background:var(--sage);border-radius:3px}
+  .ebar i.warm{background:var(--rose-light)}
+  .eval-gaps{margin:14px 0}
+  .gap{font-size:.82rem;color:var(--slate);padding:7px 0;border-top:1px solid var(--hairline)}
+  .gap b{color:var(--rose);font-weight:600}
+
+  /* chat */
+  .chatbody{padding:20px 18px;display:flex;flex-direction:column;gap:12px}
+  .msg{max-width:90%;padding:12px 16px;border-radius:14px;font-size:.88rem;opacity:0}
+  .msg .who{font-size:.66rem;text-transform:uppercase;letter-spacing:.13em;font-weight:700;margin-bottom:6px}
+  .msg.you-msg{align-self:flex-start;background:var(--ink);color:#fff;border-bottom-left-radius:4px}
+  .msg.you-msg .who{color:var(--rose-light)}
+  .msg.comp{align-self:flex-end;background:#fff;border:1px solid var(--hairline);border-right:3px solid var(--rose);border-bottom-right-radius:4px}
+  .msg.comp .who{color:var(--rose)}
+  .msg.comp .read{margin:8px 0 0;padding-left:12px;border-left:2px solid var(--hairline);color:var(--slate);font-size:.94em}
+  .msg.comp .read b{color:var(--ink)}
+  .msg.comp .rec{margin-top:10px}
+  .msg.comp .rec b{color:var(--rose)}
+  .actions{display:flex;gap:10px;flex-wrap:wrap;opacity:0}
+  .achip{
+    padding:9px 14px;border-radius:9px;border:1px solid var(--rose);
+    color:var(--rose);font-size:.78rem;font-weight:600;background:transparent;cursor:pointer;
+    font-family:var(--sans);transition:background .15s ease;
+  }
+  .achip:hover{background:rgba(178,58,92,.06)}
+  .cursor2{display:inline-block;width:7px;height:1em;background:var(--rose);vertical-align:text-bottom;animation:blink .8s steps(1) infinite}
+
+  /* studio */
+  .s-elevator{
+    font-family:var(--serif);font-style:italic;font-size:1.02rem;color:var(--ink);
+    min-height:52px;padding:12px 16px;background:#fff;border-left:3px solid var(--rose);
+    border-radius:8px;margin-bottom:16px;
+  }
+  .s-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .s-card{
+    background:#fff;border:1px solid var(--hairline);border-radius:10px;padding:13px 15px;position:relative;
+  }
+  .s-card b{display:block;font-size:.86rem;margin-bottom:3px}
+  .s-card span{font-size:.76rem;color:var(--slate);line-height:1.4;display:block}
+  .s-card .tick{
+    position:absolute;top:10px;right:10px;width:15px;height:15px;border-radius:50%;background:var(--sage);
+  }
+  .s-card .tick:after{
+    content:"";position:absolute;left:4px;top:4px;width:6px;height:3.5px;
+    border-left:2px solid #fff;border-bottom:2px solid #fff;transform:rotate(-45deg);
+  }
+
+  /* raise */
+  .pipe{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px}
+  .pcol{background:#fff;border:1px solid var(--hairline);border-radius:10px;padding:12px;text-align:center}
+  .pcol b{font-size:1.4rem;font-weight:700;display:block}
+  .pcol span{font-size:.7rem;color:var(--slate);line-height:1.3;display:block;margin-top:2px}
+  .meter-row{display:grid;grid-template-columns:80px 1fr 44px;gap:10px;align-items:center;font-size:.82rem;color:var(--slate)}
+  .meter-row b{color:var(--ink);text-align:right}
+  .meter{height:7px;border-radius:4px;background:var(--hairline);overflow:hidden}
+  .meter i{display:block;height:100%;width:0;background:var(--sage);border-radius:4px}
+  .meter-note{font-size:.76rem;color:var(--slate);margin:8px 0 14px}
+  .artifact{background:#fff;border:1px solid var(--hairline);border-radius:12px;padding:16px;position:relative}
+  .artifact .doc-title{font-size:.68rem;text-transform:uppercase;letter-spacing:.13em;color:var(--slate);margin-bottom:8px}
+  .artifact p{color:var(--slate);font-size:.84rem;line-height:1.5}
+  .artifact .figure{color:var(--ink);font-weight:600}
+  .artifact .figure.bad{color:var(--rose);text-decoration:line-through;text-decoration-thickness:2px}
+  .stamp{
+    position:absolute;top:10px;right:10px;border:3px solid var(--rose);color:var(--rose);
+    font-weight:700;font-size:.82rem;letter-spacing:.12em;padding:3px 10px;border-radius:8px;
+    transform:rotate(-7deg) scale(0);text-transform:uppercase;background:rgba(255,255,255,.9);
+  }
+  .stamp.stamp-pass{border-color:var(--sage);color:var(--sage);transform:rotate(-7deg) scale(1);opacity:0}
+
+  /* the proactive companion: the founder's prepared day */
+  .jb-line{
+    opacity:0;transform:translateY(10px);
+    font-family:var(--serif);font-size:.96rem;color:var(--ink);line-height:1.5;margin-bottom:12px;
+  }
+  .jb-line b{font-weight:600}
+  .jb-line.jb-risk b{color:var(--rose)}
+  .jb-day{margin:14px 0;border-top:1px solid var(--hairline)}
+  .jb-slot{display:flex;gap:10px;font-size:.8rem;padding:9px 0;border-bottom:1px solid var(--hairline);opacity:0}
+  .jb-slot .t{color:var(--ink);font-weight:700;min-width:44px}
+  .jb-slot .d{color:var(--ink);line-height:1.4}
+  .jb-slot small{display:block;color:var(--slate);font-size:.9em}
+
+  /* pricing */
+  .pkg-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:36px 0 8px}
+  @media(max-width:800px){.pkg-grid{grid-template-columns:1fr}}
+  .pkg{background:#fff;border:1px solid var(--hairline);border-radius:16px;padding:20px 18px;transition:transform .2s, box-shadow .2s}
+  .pkg:hover{transform:translateY(-3px);box-shadow:0 18px 40px -24px rgba(178,58,92,.35)}
+  .pkg.hero-pkg{border:2px solid var(--rose)}
+  .pkg.dark{background:var(--night);border-color:var(--night);color:#EDEFF4}
+  .pkg-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:10px}
+  .pkg-name{font-family:var(--serif);font-weight:600;font-size:1.15rem}
+  .pkg-size{
+    font-size:.62rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+    color:var(--rose);background:rgba(178,58,92,.08);padding:3px 8px;border-radius:6px;
+  }
+  .pkg.dark .pkg-size{color:var(--rose-light);background:rgba(229,140,166,.12)}
+  .pkg-price{font-size:1.55rem;font-weight:700;letter-spacing:-0.02em;margin-bottom:8px}
+  .pkg-price span{font-size:.8rem;font-weight:500;color:var(--slate)}
+  .pkg.dark .pkg-price span{color:#A9B1C0}
+  .pkg-seats{font-size:.82rem;line-height:1.55;color:var(--slate)}
+  .pkg.dark .pkg-seats{color:#EDEFF4}
+  .plus-line{
+    font-size:.68rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+    color:var(--rose);margin:2px 0 10px;
+  }
+  .pkg.dark .plus-line{color:var(--rose-light)}
+  .pkg-list{list-style:none;margin:4px 0 0}
+  .pkg-list li{
+    font-size:.8rem;line-height:1.45;color:var(--slate);
+    padding:5px 0 5px 20px;position:relative;
+  }
+  .pkg.dark .pkg-list li{color:#C9CFDA}
+  .pkg-list li:before{
+    content:"";position:absolute;left:2px;top:11px;width:8px;height:5px;
+    border-left:2px solid var(--sage);border-bottom:2px solid var(--sage);transform:rotate(-45deg);
+  }
+  .pkg.dark .pkg-list li:before{border-color:var(--rose-light)}
+  .pkg-link{
+    display:inline-block;margin-top:12px;font-size:.8rem;font-weight:600;color:var(--rose);
+  }
+  .growline{
+    font-family:var(--serif);font-style:italic;color:var(--rose);
+    font-size:1.05rem;margin-top:18px;
+  }
+
+  /* founding + close */
+  .founding{background:var(--night);color:#EDEFF4;padding:96px 24px}
+  .founding h2{font-family:var(--serif);font-weight:500;font-size:clamp(1.5rem,3.2vw,2.1rem);margin-bottom:10px}
+  .founding .f-lede{color:#A9B1C0;max-width:640px;margin-bottom:34px;font-size:.98rem}
+  .f-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px 34px;margin-bottom:38px}
+  @media(max-width:760px){.f-grid{grid-template-columns:1fr}}
+  .f-item{font-size:.92rem;color:#A9B1C0;line-height:1.6}
+  .f-item b{color:#EDEFF4;font-weight:600}
+  .btn-ink{
+    display:inline-block;padding:14px 30px;border-radius:11px;font-size:.95rem;font-weight:600;
+    background:var(--rose);color:#fff;text-decoration:none;transition:background .15s, transform .15s;
+  }
+  .btn-ink:hover{background:var(--rose-deep);transform:translateY(-1px)}
+  .honesty{background:var(--surface);border-top:1px solid var(--hairline);padding:88px 24px;text-align:center}
+  .honesty h2{font-family:var(--serif);font-weight:500;font-size:clamp(1.4rem,3vw,2rem);margin-bottom:14px}
+  .honesty p{color:var(--slate);max-width:660px;margin:0 auto;font-size:.98rem;line-height:1.65}
+  .cta-final{background:var(--porcelain);border-top:1px solid var(--hairline);text-align:center;padding:96px 24px}
+  .cta-final h2{font-family:var(--serif);font-weight:500;font-size:clamp(1.7rem,3.6vw,2.4rem);margin-bottom:12px}
+  .cta-final p{color:var(--slate);margin-bottom:32px}
+  .cta-final .btn-ink{background:var(--ink)}
+  .cta-final .btn-ink:hover{background:var(--night)}
+  footer{padding:32px 24px;text-align:center;color:var(--slate);font-size:.82rem;background:var(--porcelain)}
+  footer a{color:var(--slate)}
+
+  @media(prefers-reduced-motion:reduce){
+    #hint{animation:none}
+    #ideal .cursor{animation:none}
+    .cursor2{animation:none}
+    .reveal-j{opacity:1;transform:none}
+    .msg,.actions{opacity:1}
+  }
+</style>
+<script>
+(function(){
+  var p=new URLSearchParams(location.search); var q=p.get('lang');
+  var st=localStorage.getItem('fg_lang');
+  var L=(q==='es'||q==='en')?q:((st==='es'||st==='en')?st:'en');
+  localStorage.setItem('fg_lang',L); window.FGL=L; document.documentElement.lang=L;
+  window.FG_ES={"Fix": "Solución", "You": "Tú", "Idea": "Idea", "Free": "Gratis", "Pass": "Aprobado", "Team": "Equipo", "Cash": "Caja", "Tree": "Tree", "Wedge": "Cuña", "Block": "Bloqueado", "Day 1": "Día 1", "Day 2": "Día 2", "Grove": "Grove", "Sprout": "Sprout", "Forest": "Forest", "Pricing": "Precios", "Startup": "Startup", "Privacy": "Privacidad", "Company": "Empresa", "Reserve": "Reserve", "The idea": "La idea", "Complete": "Completo", "Completo": "Completo", "Startups": "Startups", "The raise": "La ronda", "Companies": "Empresas", "Data room": "Data room", "ARR €412k": "ARR €412k", "ARR €409k": "ARR €409k", "Flat €250": "€250 fijos", "The brain": "El cerebro", "The audit": "La auditoría", "The mentor": "El mentor", "The studio": "El estudio", "contracts/": "contracts/", "Enterprise": "Enterprise", "Opportunity": "Oportunidad", "For startups": "Para startups", "By team size": "Según el tamaño del equipo", "Revenue / mo": "Ingresos / mes", "Gross margin": "Margen bruto", "The companion": "El compañero", "For companies": "Para empresas", "Live in a day": "En marcha en un día", "The interview.": "La entrevista.", "startup ladder": "escalera de startup", "Request access": "Solicita acceso", "Ask a follow-up": "Haz una pregunta de seguimiento", "Meetings booked": "Reuniones agendadas", "price_book.docx": "price_book.docx", "Read the rollup": "Lee el resumen", "Competition heat": "Nivel de competencia", "Customer support": "Atención al cliente", "€4,120 per month": "€4.120 al mes", "€3,980 per month": "€3.980 al mes", "Review the filing": "Revisa la solicitud", "clients_2026.xlsx": "clients_2026.xlsx", "Open the Q&A brief": "Abre el resumen de preguntas y respuestas", "Now it's a company.": "Ahora es una empresa.", "The idea evaluation": "La evaluación de la idea", "Read the call script": "Lee el guion de la llamada", "Thesis-matched funds": "Fondos afines a tu tesis", "Contacted, sequenced": "Contactados, en secuencia", "The Fundability Scan": "El Fundability Scan", "Finance and strategy": "Finanzas y estrategia", "Board and governance": "Consejo y gobernanza", "The brain assembles.": "El cerebro lo ensambla.", "Compare the scenarios": "Compara los escenarios", "supplier_invoices.pdf": "supplier_invoices.pdf", "People and legal, lite": "Personas y legal, versión ligera", "Client CRM and revenue": "CRM de clientes e ingresos", "Run the free evaluation": "Haz la evaluación gratis", "First company, week one": "Primera empresa, primera semana", "Request a founding seat": "Solicita una plaza fundadora", "/mo, flat, any team size": "/mes, fijo, para cualquier tamaño de equipo", "Everything in Idea, plus": "Todo lo de Idea, más", "Workflows and automation": "Flujos de trabajo y automatización", "Approve the supplier fix": "Aprueba la corrección del proveedor", "Send the Riverbank quote": "Envía el presupuesto de Riverbank", "It is a really good idea.": "Es una idea muy buena.", "The idea, before the leap": "La idea, antes de dar el salto", "For established companies": "Para empresas ya establecidas", "Review the Riverbank note": "Revisa la nota de Riverbank", "1 CEO + 1 Lead + 1 Member": "1 CEO + 1 Lead + 1 Miembro", "People, HR and legal, full": "Personas, RRHH y legal, completo", "Everything in Startup, plus": "Todo lo de Startup, más", "See Firmgrove for companies": "Descubre Firmgrove para empresas", "What Firmgrove does not do.": "Lo que Firmgrove no hace.", "Arrange the Delgado meeting": "Organiza la reunión con Delgado", "Review the Delgado schedule": "Revisa la agenda de Delgado", "1 CEO + 2 Leads + 4 Members": "1 CEO + 2 Leads + 4 Miembros", "1 CEO + 3 Leads + 7 Members": "1 CEO + 3 Leads + 7 Miembros", "First, an honest read. Free.": "Primero, una lectura honesta. Gratis.", "For the first investor email": "Para el primer correo a un inversor", "1 CEO + 4 Leads + 11 Members": "1 CEO + 4 Leads + 11 Miembros", "Product: MVP spec and roadmap": "Producto: especificación del MVP y hoja de ruta", "Start the recruitment process": "Inicia el proceso de contratación", "Connect what you already use.": "Conecta lo que ya usas.", "Draft the message to Riverbank": "Redacta el mensaje para Riverbank", "V1 scope, with a not-in-v1 list": "Alcance de la V1, con una lista de lo que queda fuera", "You don't know what you don't know": "No sabes lo que no sabes", "Setup drafts, ready if you continue": "Borradores de configuración, listos si continúas", "The owner as the coordination layer": "El dueño como capa de coordinación", "One ladder. Idea, Startup, Completo.": "Una sola escalera. Idea, Startup, Completo.", "Every owner has a software graveyard": "Todo dueño de empresa tiene un cementerio de software", "A custom seat mix, on tailored terms": "Una combinación de plazas a medida, en condiciones personalizadas", "Ten slides, the equity story built in": "Diez diapositivas, con la historia de equity ya integrada", "Nothing reaches a customer unchecked.": "Nada llega a un cliente sin revisar.", "The per-seat tax, compounding quietly": "El impuesto por plaza, que se acumula en silencio", "The three-year model, balanced to zero": "El modelo a tres años, cuadrado a cero", "One brain. One companion. One company.": "Un cerebro. Un compañero. Una empresa.", "We grow when you do, not when you hire.": "Crecemos cuando tú creces, no cuando contratas.", "The brain, the Companion and the Auditor": "El cerebro, el Compañero y el Auditor", "Stop being the glue of your own company.": "Deja de ser el pegamento de tu propia empresa.", "It speaks first. Your day arrives decided.": "Habla primero. Tu día llega decidido.", "It speaks first. The day arrives prepared.": "Habla primero. El día llega preparado.", "Two hundred YouTube hours later, still alone": "Doscientas horas de YouTube después, sigues solo", "The raise, run like it has been done before.": "La ronda, gestionada como si ya se hubiera hecho antes.", "Studio: deck, business plan, model, one-pager": "Estudio: deck, plan de negocio, modelo, one-pager", "Why most companies keep AI away from customers": "Por qué la mayoría de empresas mantiene la IA lejos de sus clientes", "Live in a day. Not a six-month implementation.": "En marcha en un día. No una implementación de seis meses.", "You build the dream. Firmgrove runs the startup.": "Tú construyes el sueño. Firmgrove dirige la startup.", "Brand and positioning, with SEO, GEO and PR lite": "Marca y posicionamiento, con SEO, GEO y PR en versión ligera", "It grows with you, from the first idea to the exit.": "Crece contigo, desde la primera idea hasta la salida.", "The raise is a full-time job you don't have time for": "La ronda es un trabajo a tiempo completo para el que no tienes tiempo", "Experience, installed. First company, veteran output.": "Experiencia, instalada. Primera empresa, resultado de veterano.", "Priced for a lean company, because that is the point.": "Con un precio pensado para una empresa ajustada, porque esa es la idea.", "One brain. Ask it a question no single tool can answer.": "Un cerebro. Hazle una pregunta que ninguna herramienta aislada podría responder.", "Runway spent on software is runway not spent on product.": "El runway gastado en software es runway que no se gasta en producto.", "Every decision spans tools that do not talk to each other": "Cada decisión atraviesa herramientas que no se hablan entre sí", "Good morning. Three things today. Two are already prepared.": "Buenos días. Tres cosas hoy. Dos ya están preparadas.", "One product. Every module. Priced by the size of your team.": "Un solo producto. Todos los módulos. Con precio según el tamaño de tu equipo.", "The co-founder who has done it before, helping you do it now.": "El cofundador que ya lo ha hecho antes, ayudándote a hacerlo ahora.", "Released to your approval queue. You send it, not the system.": "Liberado a tu cola de aprobación. Lo envías tú, no el sistema.", "The full marketing engine: campaigns, email, social, automation": "El motor de marketing completo: campañas, email, redes sociales, automatización", "From the idea through the raise, audited before anything ships.": "Desde la idea hasta la ronda, todo auditado antes de salir.", "The wow is not that it answered. <b>It is that nobody asked.</b>": "Lo sorprendente no es que respondiera. <b>Es que nadie preguntó.</b>", "Advice tells you what to do. <b>This one opens the documents.</b>": "Un consejo te dice qué hacer. <b>Esto abre los documentos.</b>", "Riverbank Foods · quote review<small>Draft ready since 21:40</small>": "Riverbank Foods · revisión de presupuesto<small>Borrador listo desde las 21:40</small>", "Supplier call · invoice fix<small>Corrected figures attached</small>": "Llamada a proveedor · corrección de factura<small>Cifras corregidas adjuntas</small>", "Held free · approve the quote<small>Quote and margin check open</small>": "En espera · aprueba el presupuesto<small>Presupuesto y revisión de margen abiertos</small>", "\"Everyone says validate before you spend your savings. Nobody says how.\"": "\"Todos dicen que valides antes de gastarte tus ahorros. Nadie dice cómo.\"", "Held free · sign the filing<small>Reviewed and annotated for you</small>": "En espera · firma la solicitud<small>Revisada y anotada para ti</small>", "\"I need investors and I don't know the game: who, in what order, with what.\"": "\"Necesito inversores y no conozco el juego: a quién, en qué orden, con qué.\"", "<b>The difference between AI output and professional output is an audit.</b>": "<b>La diferencia entre un resultado de IA y un resultado profesional es una auditoría.</b>", "\"A chatbot waits for me to ask. Half the time I don't even know what to ask.\"": "\"Un chatbot espera a que yo pregunte. La mitad de las veces ni siquiera sé qué preguntar.\"", "The raise: cap table, pitch, data room, investor pipeline, updates, diligence": "La ronda: cap table, pitch, data room, pipeline de inversores, actualizaciones, diligencia", "Corrected figure applied from the price book. Every claim now traces to source.": "Cifra corregida aplicada desde el price book. Cada dato ahora se puede rastrear hasta su origen.", "Atlas · follow-up call<small>Their two objections, answered in your brief</small>": "Atlas · llamada de seguimiento<small>Sus dos objeciones, respondidas en tu resumen</small>", "The Companion asks how the company actually runs. An hour of talking, not a form.": "El Compañero pregunta cómo funciona la empresa de verdad. Una hora de conversación, no un formulario.", "Tell us about your company. A few details and we will be in touch within 48 hours.": "Cuéntanos sobre tu empresa. Unos pocos detalles y nos pondremos en contacto en 48 horas.", "Two gaps: the updated cap table, the Q2 cohort sheet. Both drafted, waiting for you.": "Dos huecos: el cap table actualizado, la hoja de cohortes del Q2. Ambos redactados, esperándote.", "Every contact, deal, figure and document resolved into one graph. Duplicates die here.": "Cada contacto, operación, cifra y documento resuelto en un solo lugar conectado. Aquí mueren los duplicados.", "Yours, your team's and the company's, drawn from one brain and reconciled every morning.": "Los tuyos, los de tu equipo y los de la empresa, extraídos de un solo cerebro y conciliados cada mañana.", "No migration, no training, no adoption project. <b>Keep scrolling to tomorrow morning.</b>": "Sin migración, sin formación, sin proyecto de adopción. <b>Sigue desplazándote hasta mañana por la mañana.</b>", "\"Subscription pallet tracking for mid-size food distributors. Hardware plus a monthly fee.\"": "\"Seguimiento de palés por suscripción para distribuidores de alimentación medianos. Hardware más una cuota mensual.\"", "<i class=\"sw\" style=\"background:#3E7C5B\"></i>Firmgrove, whole company included, one package": "<i class=\"sw\" style=\"background:#3E7C5B\"></i>Firmgrove, toda la empresa incluida, un solo paquete", "\"I don't know what goes in a pitch deck. Or a business plan. I have never done any of this.\"": "\"No sé qué va en un pitch deck. Ni en un plan de negocio. Nunca he hecho nada de esto.\"", "Candidate interview · first engineer<small>Scorecard ready, two questions target the gap</small>": "Entrevista a candidato · primer ingeniero<small>Scorecard lista, dos preguntas apuntan al hueco</small>", "Zoho, Notion, your inbox, your calendar, your drive. Then drop in everything else the company is.": "Zoho, Notion, tu bandeja de entrada, tu calendario, tu drive. Luego añade todo lo demás que es la empresa.", "\"Every hire adds another license to every tool. My software bill grows faster than my team does.\"": "\"Cada contratación añade otra licencia a cada herramienta. Mi factura de software crece más rápido que mi equipo.\"", "\"The last system took six months to roll out. Half the team never logged in. We still pay for it.\"": "\"El último sistema tardó seis meses en implantarse. La mitad del equipo nunca llegó a entrar. Todavía lo pagamos.\"", "\"I don't need someone to tell me what to do. I need someone who knows what to do and helps me do it.\"": "\"No necesito a alguien que me diga qué hacer. Necesito a alguien que sepa qué hacer y me ayude a hacerlo.\"", "<i class=\"sw\" style=\"background:#B23A5C\"></i>The tools an SME needs, bought one by one, priced per seat": "<i class=\"sw\" style=\"background:#B23A5C\"></i>Las herramientas que necesita una pyme, compradas una a una, con precio por plaza", "You type or speak, in any language. Records create themselves from the conversation; you never see a database.": "Escribes o hablas, en cualquier idioma. Los registros se crean solos a partir de la conversación, nunca ves una base de datos.", "Every meeting with its brief, every call with its context, prepared the night before by the system, not by you.": "Cada reunión con su resumen, cada llamada con su contexto, preparado la noche anterior por el sistema, no por ti.", "Twenty years of how-it's-done, in your first week. <b>The Auditor checks every claim before anything leaves.</b>": "Veinte años de saber hacer, en tu primera semana. <b>El Auditor revisa cada dato antes de que salga nada.</b>", "Everything it mentions is already drafted and waiting. You approve, edit or decline. You decide, Firmgrove does.": "Todo lo que menciona ya está redactado y esperando. Tú apruebas, editas o rechazas. Tú decides, Firmgrove lo hace.", "The draft says €4,120. Your price book and the last three Riverbank invoices say €3,980. No number ships from memory.": "El borrador dice €4.120. Tu price book y las últimas tres facturas de Riverbank dicen €3.980. Ningún número sale de memoria.", "A chatbot waits for you to know what to ask. The Companion already knows your company, <b>so it warns you before you ask.</b>": "Un chatbot espera a que sepas qué preguntar. El Compañero ya conoce tu empresa, <b>así que te avisa antes de que preguntes.</b>", "Ask anything, or say what changed: \"move the Riverbank call to 10\", \"we won the Delgado account\", \"draft a reply to the supplier\"": "Pregunta lo que sea, o cuenta qué ha cambiado: \"mueve la llamada de Riverbank a las 10\", \"hemos ganado la cuenta de Delgado\", \"redacta una respuesta para el proveedor\"", "One question touched Sales, Finance, People and Projects. Three ways forward, each one tap away. <b>You decide; Firmgrove does.</b>": "Una sola pregunta tocó Ventas, Finanzas, Personas y Proyectos. Tres caminos posibles, cada uno a un toque de distancia. <b>Tú decides, Firmgrove lo hace.</b>", "\"Nothing moves unless I move it. Every report needs a meeting, every meeting needs a chase, and the chasing is my whole afternoon.\"": "\"Nada se mueve si no lo muevo yo. Cada informe necesita una reunión, cada reunión necesita seguimiento, y ese seguimiento es toda mi tarde.\"", "\"AI writes fast. That is exactly what scares me. One made-up number in a quote and a twelve-year customer relationship is on the line.\"": "\"La IA escribe rápido. Eso es justo lo que me asusta. Un número inventado en un presupuesto y una relación de doce años con un cliente está en juego.\"", "Setup and migration billed once. The tools you keep, your email engine or accounting provider, <b>stay on your own bill, with no markup.</b>": "Configuración y migración se facturan una sola vez. Las herramientas que conserves, tu motor de email o tu proveedor de contabilidad, <b>siguen en tu propia factura, sin sobrecoste.</b>", "No deck required, no signup gauntlet, no report to carry somewhere else. <b>The read opens the system that then runs what it recommended.</b>": "No hace falta ningún deck, ni un registro interminable, ni un informe que llevar a otro lado. <b>La lectura abre el sistema que luego ejecuta lo que ha recomendado.</b>", "<b>Northlane opened your deck three times last night.</b> Partner attention; a call usually follows within the week. Your Q&A brief is ready.": "<b>Northlane abrió tu deck tres veces anoche.</b> Atención de un partner, normalmente le sigue una llamada esa misma semana. Tu resumen de preguntas y respuestas está listo.", "<b>Your trademark window closes in 19 days.</b> Nobody asked me to watch it. The filing is drafted; it needs your signature, not your evening.": "<b>Tu ventana para registrar la marca cierra en 19 días.</b> Nadie me pidió que la vigilara. La solicitud está redactada, necesita tu firma, no tu tarde.", "You talk. The Studio drafts the elevator pitch, the deck, the plan, the model and the MVP spec, <b>all from one brain, so every number agrees everywhere.</b>": "Tú hablas. El Estudio redacta el elevator pitch, el deck, el plan, el modelo y la especificación del MVP, <b>todo desde un mismo cerebro, así que cada número cuadra en todas partes.</b>", "\"Can we even take this client? To answer one question I need the CRM, the books and three people's holidays. By the time I have the answer, the week is gone.\"": "\"¿Podemos siquiera aceptar a este cliente? Para responder una sola pregunta necesito el CRM, la contabilidad y las vacaciones de tres personas. Para cuando tengo la respuesta, la semana ya ha pasado.\"", "Above Forest, seats are added individually: CEO €300, Lead €150, Member €50. Setup and migration billed once. The tools you keep stay on your own bill, with no markup.": "Por encima de Forest, las plazas se añaden una a una: CEO €300, Lead €150, Miembro €50. Configuración y migración se facturan una sola vez. Las herramientas que conserves siguen en tu propia factura, sin sobrecoste.", "We closed October at <span class=\"figure bad\" id=\"j-bad\">ARR €412k</span><span class=\"figure\" id=\"j-good\" style=\"opacity:0\"> ARR €409k</span>, net revenue retention 118%.": "Cerramos octubre con <span class=\"figure bad\" id=\"j-bad\">ARR €412k</span><span class=\"figure\" id=\"j-good\" style=\"opacity:0\"> ARR €409k</span>, retención neta de ingresos del 118%.", "Overnight it read your inbox, watched the numbers, filed what it could and prepared your meetings. It opens your day in plain language, like a colleague, never a dashboard.": "Durante la noche leyó tu bandeja de entrada, vigiló las cifras, archivó lo que pudo y preparó tus reuniones. Abre tu día en lenguaje llano, como un compañero, nunca como un panel de control.", "Describe the idea the way you would to a friend. Firmgrove evaluates it the way an investor would: the market, the wedge, the competition, and <b>every gap mapped to the thing that closes it.</b>": "Describe la idea como se la contarías a un amigo. Firmgrove la evalúa como lo haría un inversor: el mercado, la cuña de entrada, la competencia, y <b>cada hueco relacionado con lo que lo cierra.</b>", "Ask it anything a veteran would know: how rounds actually work, what investors read first, what to do this week. It answers with the playbook and the why, <b>and then it does the work with you.</b>": "Pregúntale cualquier cosa que sabría un veterano: cómo funcionan de verdad las rondas, qué leen primero los inversores, qué hacer esta semana. Responde con el manual y el porqué, <b>y luego hace el trabajo contigo.</b>", "Overnight I closed yesterday's books, caught a supplier invoice that did not match, and prepared the Friday rollup. Riverbank Foods asked for a quote, I drafted it and held your 16:30 to approve it.": "Durante la noche cerré la contabilidad de ayer, detecté una factura de proveedor que no cuadraba, y preparé el resumen del viernes. Riverbank Foods pidió un presupuesto, lo redacté y reservé tu hueco de las 16:30 para que lo aprobaras.", "The pipeline finds the funds whose thesis matches you, sequences the outreach, keeps the data room diligence-ready, <b>and nothing reaches an investor unchecked.</b> The wrong number dies in the draft.": "El pipeline encuentra los fondos cuya tesis encaja contigo, secuencia el contacto, mantiene el data room listo para la diligencia, <b>y nada llega a un inversor sin revisar.</b> El número equivocado muere en el borrador.", "Every contact, deal, invoice and holiday lives once, in one graph. So the question you actually have, the one that spans sales, cash and people, <b>gets one answer instead of three exports and a weekend.</b>": "Cada contacto, operación, factura y vacación existe una sola vez, en un solo lugar conectado. Así, la pregunta que realmente tienes, la que atraviesa ventas, caja y personas, <b>obtiene una respuesta en vez de tres exportaciones y un fin de semana.</b>", "The company runs on one brain, not on a chain of status meetings. Reporting, follow-ups and the glue between departments get done overnight, <b>and your morning opens like a colleague, never a dashboard.</b>": "La empresa funciona con un solo cerebro, no con una cadena de reuniones de estado. Los informes, los seguimientos y el pegamento entre departamentos se resuelven durante la noche, <b>y tu mañana empieza como un compañero, nunca como un panel de control.</b>", "A chatbot answers questions. The Companion already knows your company, so it warns you before you ask, prepares what you did not know you needed, <b>and opens your morning like a co-founder, never a dashboard.</b>": "Un chatbot responde preguntas. El Compañero ya conoce tu empresa, así que te avisa antes de que preguntes, prepara lo que no sabías que necesitabas, <b>y abre tu mañana como un cofundador, nunca como un panel de control.</b>", "Every outbound document passes the Auditor, a gate that checks each claim against the company's real facts and figures. Pass, pass with notes, or block. <b>Then a person approves it. Nothing goes out on its own.</b>": "Todo documento que sale pasa por el Auditor, una barrera que revisa cada dato frente a los hechos y cifras reales de la empresa. Aprobado, aprobado con notas, o bloqueado. <b>Luego una persona lo aprueba. Nada sale por su cuenta.</b>", "It does not replace your engineers, your product, or your judgment. Hiring, legal commitments and money movements are prepared by the system and decided by you, every time. The admission is what makes the rest believable.": "No sustituye a tus ingenieros, a tu producto, ni a tu criterio. Las contrataciones, los compromisos legales y los movimientos de dinero los prepara el sistema y los decides tú, siempre. Reconocer esto es lo que hace creíble el resto.", "Most tools earn more when your headcount grows. Firmgrove's job is the opposite: <b>to let you run flatter than your headcount suggests</b>, with the groundwork done by the system instead of a layer of coordination roles.": "La mayoría de las herramientas ganan más cuando crece tu plantilla. El trabajo de Firmgrove es el contrario: <b>dejarte operar con una estructura más plana de lo que sugiere tu plantilla</b>, con el trabajo de base hecho por el sistema en vez de por una capa de roles de coordinación.", "Earlier stage or pre-revenue? Start free and raise on the <a href=\"startups.html\" style=\"color:var(--rose);font-weight:600;text-decoration:none\">startup ladder</a>, then graduate here at the size that fits, without changing systems.": "¿Estás en una fase más temprana o sin ingresos todavía? Empieza gratis y levanta capital en la <a href=\"startups.html\" style=\"color:var(--rose);font-weight:600;text-decoration:none\">escalera de startup</a>, y luego pasa aquí cuando tengas el tamaño que encaja, sin cambiar de sistema.", "Every package unlocks the whole system: sales and CRM, finance, marketing, projects, support, people, legal, governance and workflows, on one brain, with the Companion and the Auditor always on. <b>The whole company, in every package.</b>": "Cada paquete desbloquea el sistema completo: ventas y CRM, finanzas, marketing, proyectos, soporte, personas, legal, gobernanza y flujos de trabajo, en un solo cerebro, con el Compañero y el Auditor siempre activos. <b>Toda la empresa, en cada paquete.</b>", "The idea is free to test. Startup is a flat €250 a month at any headcount. When you outgrow the raise you graduate to Completo, the whole company on one brain, priced by the size of your team. <b>One plant, one brain, growing with you.</b>": "Probar la idea es gratis. Startup cuesta €250 fijos al mes con cualquier tamaño de plantilla. Cuando la ronda se te queda pequeña, pasas a Completo, toda la empresa en un solo cerebro, con precio según el tamaño de tu equipo. <b>Una sola planta, un solo cerebro, creciendo contigo.</b>", "It does not replace your people's judgment, their accountability, or the senior people who own results. Hiring, sensitive contracts and money movements are prepared by the system and decided by a person, every time. The admission is what makes the rest believable.": "No sustituye el criterio de tu gente, su responsabilidad, ni a los seniors que responden por los resultados. Las contrataciones, los contratos sensibles y los movimientos de dinero los prepara el sistema y los decide una persona, siempre. Reconocer esto es lo que hace creíble el resto.", "Full integration, three sites, onboarding included. Total for the engagement: <span class=\"figure bad\" id=\"fig-bad\">€4,120 per month</span> <span class=\"figure\" id=\"fig-good\" style=\"opacity:0\"> €3,980 per month</span>, fixed for the first twelve months, service credits as per the standard terms.": "Integración completa, tres sedes, onboarding incluido. Total del contrato: <span class=\"figure bad\" id=\"fig-bad\">€4.120 al mes</span> <span class=\"figure\" id=\"fig-good\" style=\"opacity:0\"> €3.980 al mes</span>, fijo durante los primeros doce meses, créditos de servicio según los términos estándar.", "/mo": "/mes", "Gap.": "Hueco.", "Custom": "Personalizado", "Blocked": "Bloqueado", "Targets": "Objetivos", "MVP spec": "Especificación del MVP", "3 people": "3 personas", "Your day": "Tu día", "Overnight": "Durante la noche", "Companion": "Compañero", "One-pager": "One-pager", "from €500": "desde €500", "One brain.": "Un solo cerebro.", "Pitch deck": "Pitch deck", "Business plan": "Plan de negocio", "One companion.": "Un solo compañero.", "About 3 people": "Unas 3 personas", "About 7 people": "Unas 7 personas", "About 16 people": "Unas 16 personas", "About 11 people": "Unas 11 personas", "20 people and up": "20 personas o más", "No tool to learn": "Ninguna herramienta que aprender", "Every number agrees": "Todos los números cuadran", "We closed October at": "Cerramos octubre con", "Every number agrees.": "Todos los números cuadran.", "Delgado accelerated.": "Delgado ha acelerado.", "Experience, installed": "Experiencia, instalada", "Atlas · follow-up call": "Atlas · llamada de seguimiento", "The raise, run for you.": "La ronda, gestionada por ti.", "Everything in one place": "Todo en un solo lugar", "Decisions, one tap away": "Decisiones, a un toque de distancia", "Draft ready since 21:40": "Borrador listo desde las 21:40", "It is that nobody asked.": "Es que nadie preguntó.", "from €500<span>/mo</span>": "desde €500<span>/mes</span>", "Riverbank has gone quiet.": "Riverbank se ha quedado en silencio.", "Targets at three altitudes": "Objetivos en tres niveles", "The Companion speaks first": "El Compañero habla primero", "Corrected figures attached": "Cifras corregidas adjuntas", "Quote and margin check open": "Presupuesto y revisión de margen abiertos", "You decide; Firmgrove does.": "Tú decides, Firmgrove lo hace.", "A day that arrives prepared": "Un día que llega preparado", "Capital · Illustrative data": "Capital · Datos ilustrativos", "Supplier call · invoice fix": "Llamada a proveedor · corrección de factura", "Held free · sign the filing": "En espera · firma la solicitud", "The only interface there is": "La única interfaz que existe", "Your company, in your hands.": "Tu empresa, en tus manos.", "Your startup, in your hands.": "Tu startup, en tus manos.", "Advice tells you what to do.": "Un consejo te dice qué hacer.", "The tool stack, seat by seat": "El stack de herramientas, plaza a plaza", "<span>Cash</span><b>€182k</b>": "<span>Caja</span><b>€182k</b>", "Held free · approve the quote": "En espera · aprueba el presupuesto", "Free. Firmgrove evaluates it.": "Gratis. Firmgrove la evalúa.", "This one opens the documents.": "Esto abre los documentos.", ", net revenue retention 118%.": ", retención neta de ingresos del 118%.", "Riverbank Foods · quote review": "Riverbank Foods · revisión de presupuesto", "Reviewed and annotated for you": "Revisada y anotada para ti", "Quote · Riverbank Foods · draft": "Presupuesto · Riverbank Foods · borrador", "so it warns you before you ask.": "así que te avisa antes de que preguntes.", "The whole company, on one brain.": "Toda la empresa, en un solo cerebro.", "The wow is not that it answered.": "Lo sorprendente no es que respondiera.", "Investor update · October · draft": "Actualización para inversores · octubre · borrador", "The Companion · Illustrative data": "El Compañero · Datos ilustrativos", "You talk. It runs the groundwork.": "Tú hablas. Él hace el trabajo de base.", "Keep scrolling to tomorrow morning.": "Sigue desplazándote hasta mañana por la mañana.", "<span>Gross margin</span><b>32%</b>": "<span>Margen bruto</span><b>32%</b>", "The wrong number dies in the draft.": "El número equivocado muere en el borrador.", "and then it does the work with you.": "y luego hace el trabajo contigo.", "<span>Revenue / mo</span><b>€96k</b>": "<span>Ingresos / mes</span><b>€96k</b>", "07:30 · Your day · Illustrative data": "07:30 · Tu día · Datos ilustrativos", "Candidate interview · first engineer": "Entrevista a candidato · primer ingeniero", "<b>3</b><span>Meetings booked</span>": "<b>3</b><span>Reuniones agendadas</span>", "The whole company, in every package.": "Toda la empresa, en cada paquete.", "stay on your own bill, with no markup.": "siguen en tu propia factura, sin sobrecoste.", "One plant, one brain, growing with you.": "Una sola planta, un solo cerebro, creciendo contigo.", "Your trademark window closes in 19 days.": "Tu ventana para registrar la marca cierra en 19 días.", "The Studio · drafted from your interview": "El Estudio · redactado a partir de tu entrevista", "The Companion · Illustrative company data": "El Compañero · Datos ilustrativos de empresa", "<b>12</b><span>Contacted, sequenced</span>": "<b>12</b><span>Contactados, en secuencia</span>", "Idea evaluation · free · Illustrative data": "Evaluación de la idea · gratis · Datos ilustrativos", "and nothing reaches an investor unchecked.": "y nada llega a un inversor sin revisar.", "<b>24</b><span>Thesis-matched funds</span>": "<b>24</b><span>Fondos afines a tu tesis</span>", "Their two objections, answered in your brief": "Sus dos objeciones, respondidas en tu resumen", "Scorecard ready, two questions target the gap": "Scorecard lista, dos preguntas apuntan al hueco", "every gap mapped to the thing that closes it.": "cada hueco relacionado con lo que lo cierra.", "· Interface described with illustrative data.": "· Interfaz descrita con datos ilustrativos.", "Firmgrove, whole company included, one package": "Firmgrove, toda la empresa incluida, un solo paquete", "No migration, no training, no adoption project.": "Sin migración, sin formación, sin proyecto de adopción.", "07:30 · The briefing · Illustrative company data": "07:30 · El resumen · Datos ilustrativos de empresa", "Northlane opened your deck three times last night.": "Northlane abrió tu deck tres veces anoche.", "Twenty years of how-it's-done, in your first week.": "Veinte años de saber hacer, en tu primera semana.", "to let you run flatter than your headcount suggests": "dejarte operar con una estructura más plana de lo que sugiere tu plantilla", "07:30 · The morning brief · Illustrative company data": "07:30 · El resumen matutino · Datos ilustrativos de empresa", "<span class=\"fdot\"></span>Capital · Illustrative data": "<span class=\"fdot\"></span>Capital · Datos ilustrativos", "The Auditor checks every claim before anything leaves.": "El Auditor revisa cada dato antes de que salga nada.", "all from one brain, so every number agrees everywhere.": "todo desde un mismo cerebro, así que cada número cuadra en todas partes.", "Then a person approves it. Nothing goes out on its own.": "Luego una persona lo aprueba. Nada sale por su cuenta.", "gets one answer instead of three exports and a weekend.": "obtiene una respuesta en vez de tres exportaciones y un fin de semana.", "Firmgrove · The operating system that runs your company ·": "Firmgrove · El sistema operativo que dirige tu empresa ·", "The tools an SME needs, bought one by one, priced per seat": "Las herramientas que necesita una pyme, compradas una a una, con precio por plaza", "and your morning opens like a colleague, never a dashboard.": "y tu mañana empieza como un compañero, nunca como un panel de control.", "<span class=\"fdot\"></span>The Companion · Illustrative data": "<span class=\"fdot\"></span>El Compañero · Datos ilustrativos", "and opens your morning like a co-founder, never a dashboard.": "y abre tu mañana como un cofundador, nunca como un panel de control.", "Firmgrove · The AI operating system that runs your startup ·": "Firmgrove · El sistema operativo de IA que dirige tu startup ·", "The read opens the system that then runs what it recommended.": "La lectura abre el sistema que luego ejecuta lo que ha recomendado.", "No cost-of-hardware model yet. The Studio drafts it with you.": "Todavía no hay modelo de coste de hardware. El Estudio lo redacta contigo.", "<span class=\"fdot\"></span>07:30 · Your day · Illustrative data": "<span class=\"fdot\"></span>07:30 · Tu día · Datos ilustrativos", "Good morning. The company is on plan. Two things need you today.": "Buenos días. La empresa va según lo previsto. Dos cosas te necesitan hoy.", "Firmgrove for companies. Stop being the glue of your own company.": "Firmgrove para empresas. Deja de ser el pegamento de tu propia empresa.", "<span class=\"pkg-name\">Tree</span><span class=\"pkg-size\">M</span>": "<span class=\"pkg-name\">Tree</span><span class=\"pkg-size\">M</span>", "<span class=\"pkg-name\">Grove</span><span class=\"pkg-size\">L</span>": "<span class=\"pkg-name\">Grove</span><span class=\"pkg-size\">L</span>", "<span class=\"fdot\"></span>The Studio · drafted from your interview": "<span class=\"fdot\"></span>El Estudio · redactado a partir de tu entrevista", "<span class=\"fdot\"></span>The Companion · Illustrative company data": "<span class=\"fdot\"></span>El Compañero · Datos ilustrativos de empresa", "<span class=\"pkg-name\">Sprout</span><span class=\"pkg-size\">S</span>": "<span class=\"pkg-name\">Sprout</span><span class=\"pkg-size\">S</span>", "<span class=\"fdot\"></span>Idea evaluation · free · Illustrative data": "<span class=\"fdot\"></span>Evaluación de la idea · gratis · Datos ilustrativos", "<span class=\"pkg-name\">Forest</span><span class=\"pkg-size\">XL</span>": "<span class=\"pkg-name\">Forest</span><span class=\"pkg-size\">XL</span>", "<span class=\"pkg-name\">Idea</span><span class=\"pkg-size\">Free</span>": "<span class=\"pkg-name\">Idea</span><span class=\"pkg-size\">Gratis</span>", "The difference between AI output and professional output is an audit.": "La diferencia entre un resultado de IA y un resultado profesional es una auditoría.", "Firmgrove for startups. You build the dream. Firmgrove runs the startup.": "Firmgrove para startups. Tú construyes el sueño. Firmgrove dirige la startup.", "No deck required, no signup gauntlet, no report to carry somewhere else.": "No hace falta ningún deck, ni un registro interminable, ni un informe que llevar a otro lado.", "<b>Gap.</b> No cost-of-hardware model yet. The Studio drafts it with you.": "<b>Hueco.</b> Todavía no hay modelo de coste de hardware. El Estudio lo redacta contigo.", "<span class=\"fdot\"></span>07:30 · The briefing · Illustrative company data": "<span class=\"fdot\"></span>07:30 · El resumen · Datos ilustrativos de empresa", "<span class=\"pkg-name\">Startup</span><span class=\"pkg-size\">Flat €250</span>": "<span class=\"pkg-name\">Startup</span><span class=\"pkg-size\">€250 fijos</span>", "Two incumbents own the enterprise tier. Positioning narrows you to mid-size.": "Dos actores dominan el nivel enterprise. El posicionamiento te limita al segmento mediano.", "<b>One-pager</b><span>For the first investor email</span><i class=\"tick\"></i>": "<b>One-pager</b><span>Para el primer correo a un inversor</span><i class=\"tick\"></i>", "<span class=\"pkg-name\">Reserve</span><span class=\"pkg-size\">Enterprise</span>": "<span class=\"pkg-name\">Reserve</span><span class=\"pkg-size\">Enterprise</span>", "Full integration, three sites, onboarding included. Total for the engagement:": "Integración completa, tres sedes, onboarding incluido. Total del contrato:", "<b>MVP spec</b><span>V1 scope, with a not-in-v1 list</span><i class=\"tick\"></i>": "<b>Especificación del MVP</b><span>Alcance de la V1, con una lista de lo que queda fuera</span><i class=\"tick\"></i>", ", fixed for the first twelve months, service credits as per the standard terms.": ", fijo durante los primeros doce meses, créditos de servicio según los términos estándar.", "<span class=\"fdot\"></span>07:30 · The morning brief · Illustrative company data": "<span class=\"fdot\"></span>07:30 · El resumen matutino · Datos ilustrativos de empresa", "Most tools earn more when your headcount grows. Firmgrove's job is the opposite:": "La mayoría de las herramientas ganan más cuando crece tu plantilla. El trabajo de Firmgrove es el contrario:", "<span class=\"pkg-name\">Completo</span><span class=\"pkg-size\">By team size</span>": "<span class=\"pkg-name\">Completo</span><span class=\"pkg-size\">Según el tamaño del equipo</span>", "No distribution insight. The GTM plan starts with twelve distributor interviews.": "Sin visión de distribución. El plan de GTM empieza con doce entrevistas a distribuidores.", ", with the groundwork done by the system instead of a layer of coordination roles.": ", con el trabajo de base hecho por el sistema en vez de por una capa de roles de coordinación.", "Partner attention; a call usually follows within the week. Your Q&A brief is ready.": "Atención de un partner, normalmente le sigue una llamada esa misma semana. Tu resumen de preguntas y respuestas está listo.", "A chatbot waits for you to know what to ask. The Companion already knows your company,": "Un chatbot espera a que sepas qué preguntar. El Compañero ya conoce tu empresa,", "<b>Pitch deck</b><span>Ten slides, the equity story built in</span><i class=\"tick\"></i>": "<b>Pitch deck</b><span>Diez diapositivas, con la historia de equity ya integrada</span><i class=\"tick\"></i>", "<b>Gap.</b> Two incumbents own the enterprise tier. Positioning narrows you to mid-size.": "<b>Hueco.</b> Dos actores dominan el nivel enterprise. El posicionamiento te limita al segmento mediano.", "Good morning. The company is on plan, and two things moved overnight that belong together.": "Buenos días. La empresa va según lo previsto, y dos cosas se han movido durante la noche que están relacionadas.", "<b>Business plan</b><span>The three-year model, balanced to zero</span><i class=\"tick\"></i>": "<b>Plan de negocio</b><span>El modelo a tres años, cuadrado a cero</span><i class=\"tick\"></i>", "<span class=\"day-tag\" id=\"dtag1\">Day 1</span> <span class=\"day-tag\" id=\"dtag2\">Day 2</span>": "<span class=\"day-tag\" id=\"dtag1\">Día 1</span> <span class=\"day-tag\" id=\"dtag2\">Día 2</span>", "<b>Gap.</b> No distribution insight. The GTM plan starts with twelve distributor interviews.": "<b>Hueco.</b> Sin visión de distribución. El plan de GTM empieza con doce entrevistas a distribuidores.", "Nobody asked me to connect these. I did anyway. Both answers are drafted and waiting for you.": "Nadie me pidió que conectara esto. Lo hice de todos modos. Las dos respuestas están redactadas y te esperan.", "Setup and migration billed once. The tools you keep, your email engine or accounting provider,": "Configuración y migración se facturan una sola vez. Las herramientas que conserves, tu motor de email o tu proveedor de contabilidad,", "Nobody asked me to watch it. The filing is drafted; it needs your signature, not your evening.": "Nadie me pidió que la vigilara. La solicitud está redactada, necesita tu firma, no tu tarde.", "You talk. The Studio drafts the elevator pitch, the deck, the plan, the model and the MVP spec,": "Tú hablas. El Estudio redacta el elevator pitch, el deck, el plan, el modelo y la especificación del MVP,", "One question touched Sales, Finance, People and Projects. Three ways forward, each one tap away.": "Una sola pregunta tocó Ventas, Finanzas, Personas y Proyectos. Tres caminos posibles, cada uno a un toque de distancia.", "They want to close this month instead of next quarter. Good news, and it changes your cash timing.": "Quieren cerrar este mes en lugar del próximo trimestre. Buena noticia, y cambia tus plazos de caja.", "Targets<span class=\"seg\">You</span><span class=\"seg\">Team</span><span class=\"seg on\">Company</span>": "Objetivos<span class=\"seg\">Tú</span><span class=\"seg\">Equipo</span><span class=\"seg on\">Empresa</span>", "<button class=\"achip\">Open the Q&amp;A brief</button> <button class=\"achip\">Review the filing</button>": "<button class=\"achip\">Abre el resumen de preguntas y respuestas</button> <button class=\"achip\">Revisa la solicitud</button>", "<span class=\"tag t-pass\">Pass</span><span>Released to your approval queue. You send it, not the system.</span>": "<span class=\"tag t-pass\">Aprobado</span><span>Liberado a tu cola de aprobación. Lo envías tú, no el sistema.</span>", "The pipeline finds the funds whose thesis matches you, sequences the outreach, keeps the data room diligence-ready,": "El pipeline encuentra los fondos cuya tesis encaja contigo, secuencia el contacto, mantiene el data room listo para la diligencia,", "<button class=\"achip\">Review the Riverbank note</button> <button class=\"achip\">Review the Delgado schedule</button>": "<button class=\"achip\">Revisa la nota de Riverbank</button> <button class=\"achip\">Revisa la agenda de Delgado</button>", "<button aria-pressed=\"true\" data-lang-btn=\"en\">EN</button><button aria-pressed=\"false\" data-lang-btn=\"es\">ES</button>": "<button aria-pressed=\"true\" data-lang-btn=\"en\">EN</button><button aria-pressed=\"false\" data-lang-btn=\"es\">ES</button>", "<span class=\"t\">09:30</span><span class=\"d\">Riverbank Foods · quote review<small>Draft ready since 21:40</small></span>": "<span class=\"t\">09:30</span><span class=\"d\">Riverbank Foods · revisión de presupuesto<small>Borrador listo desde las 21:40</small></span>", "<span class=\"t\">11:00</span><span class=\"d\">Supplier call · invoice fix<small>Corrected figures attached</small></span>": "<span class=\"t\">11:00</span><span class=\"d\">Llamada a proveedor · corrección de factura<small>Cifras corregidas adjuntas</small></span>", "<span class=\"t\">16:30</span><span class=\"d\">Held free · approve the quote<small>Quote and margin check open</small></span>": "<span class=\"t\">16:30</span><span class=\"d\">En espera · aprueba el presupuesto<small>Presupuesto y revisión de margen abiertos</small></span>", "<span class=\"t\">17:30</span><span class=\"d\">Held free · sign the filing<small>Reviewed and annotated for you</small></span>": "<span class=\"t\">17:30</span><span class=\"d\">En espera · firma la solicitud<small>Revisada y anotada para ti</small></span>", "<b>Delgado accelerated.</b> They want to close this month instead of next quarter. Good news, and it changes your cash timing.": "<b>Delgado ha acelerado.</b> Quieren cerrar este mes en lugar del próximo trimestre. Buena noticia, y cambia tus plazos de caja.", "<span class=\"tag t-fix\">Fix</span><span>Corrected figure applied from the price book. Every claim now traces to source.</span>": "<span class=\"tag t-fix\">Solución</span><span>Cifra corregida aplicada desde el price book. Cada dato ahora se puede rastrear hasta su origen.</span>", "<span class=\"t\">10:00</span><span class=\"d\">Atlas · follow-up call<small>Their two objections, answered in your brief</small></span>": "<span class=\"t\">10:00</span><span class=\"d\">Atlas · llamada de seguimiento<small>Sus dos objeciones, respondidas en tu resumen</small></span>", "No reply on the renewal in 19 days. If Delgado closes early and Riverbank slips, your cash dips below the two-month buffer in October.": "Sin respuesta sobre la renovación en 19 días. Si Delgado cierra antes de tiempo y Riverbank se retrasa, tu caja cae por debajo del colchón de dos meses en octubre.", "The company runs on one brain, not on a chain of status meetings. Reporting, follow-ups and the glue between departments get done overnight,": "La empresa funciona con un solo cerebro, no con una cadena de reuniones de estado. Los informes, los seguimientos y el pegamento entre departamentos se resuelven durante la noche,", "Describe the idea the way you would to a friend. Firmgrove evaluates it the way an investor would: the market, the wedge, the competition, and": "Describe la idea como se la contarías a un amigo. Firmgrove la evalúa como lo haría un inversor: el mercado, la cuña de entrada, la competencia, y", "Every contact, deal, invoice and holiday lives once, in one graph. So the question you actually have, the one that spans sales, cash and people,": "Cada contacto, operación, factura y vacación existe una sola vez, en un solo lugar conectado. Así, la pregunta que realmente tienes, la que atraviesa ventas, caja y personas,", "A chatbot answers questions. The Companion already knows your company, so it warns you before you ask, prepares what you did not know you needed,": "Un chatbot responde preguntas. El Compañero ya conoce tu empresa, así que te avisa antes de que preguntes, prepara lo que no sabías que necesitabas,", "<span class=\"t\">15:00</span><span class=\"d\">Candidate interview · first engineer<small>Scorecard ready, two questions target the gap</small></span>": "<span class=\"t\">15:00</span><span class=\"d\">Entrevista a candidato · primer ingeniero<small>Scorecard lista, dos preguntas apuntan al hueco</small></span>", "<button class=\"achip\">Compare the scenarios</button> <button class=\"achip\">Read the call script</button> <button class=\"achip\">Ask a follow-up</button>": "<button class=\"achip\">Compara los escenarios</button> <button class=\"achip\">Lee el guion de la llamada</button> <button class=\"achip\">Haz una pregunta de seguimiento</button>", "Every outbound document passes the Auditor, a gate that checks each claim against the company's real facts and figures. Pass, pass with notes, or block.": "Todo documento que sale pasa por el Auditor, una barrera que revisa cada dato frente a los hechos y cifras reales de la empresa. Aprobado, aprobado con notas, o bloqueado.", "Ask it anything a veteran would know: how rounds actually work, what investors read first, what to do this week. It answers with the playbook and the why,": "Pregúntale cualquier cosa que sabría un veterano: cómo funcionan de verdad las rondas, qué leen primero los inversores, qué hacer esta semana. Responde con el manual y el porqué,", "<span class=\"line on\" id=\"line1\"></span> <span class=\"line\" id=\"line2\">It is a really good idea.</span> <span class=\"line\" id=\"line3\">Now it's a company.</span>": "<span class=\"line on\" id=\"line1\"></span> <span class=\"line\" id=\"line2\">Es una idea muy buena.</span> <span class=\"line\" id=\"line3\">Ahora es una empresa.</span>", "<span class=\"tag t-block\">Block</span><span>The draft says €4,120. Your price book and the last three Riverbank invoices say €3,980. No number ships from memory.</span>": "<span class=\"tag t-block\">Bloqueado</span><span>El borrador dice €4.120. Tu price book y las últimas tres facturas de Riverbank dicen €3.980. Ningún número sale de memoria.</span>", "<button class=\"achip\">Draft the message to Riverbank</button> <button class=\"achip\">Start the recruitment process</button> <button class=\"achip\">Arrange the Delgado meeting</button>": "<button class=\"achip\">Redacta el mensaje para Riverbank</button> <button class=\"achip\">Inicia el proceso de contratación</button> <button class=\"achip\">Organiza la reunión con Delgado</button>", "Firmgrove · The operating system that runs your company · <a href=\"startups.html\">For startups</a> · <a href=\"privacy.html\">Privacy</a> · Interface described with illustrative data.": "Firmgrove · El sistema operativo que dirige tu empresa · <a href=\"startups.html\">Para startups</a> · <a href=\"privacy.html\">Privacidad</a> · Interfaz descrita con datos ilustrativos.", "<b class=\"thread\">Riverbank has gone quiet.</b> No reply on the renewal in 19 days. If Delgado closes early and Riverbank slips, your cash dips below the two-month buffer in October.": "<b class=\"thread\">Riverbank se ha quedado en silencio.</b> Sin respuesta sobre la renovación en 19 días. Si Delgado cierra antes de tiempo y Riverbank se retrasa, tu caja cae por debajo del colchón de dos meses en octubre.", "Firmgrove · The AI operating system that runs your startup · <a href=\"companies.html\">For companies</a> · <a href=\"privacy.html\">Privacy</a> · Interface described with illustrative data.": "Firmgrove · El sistema operativo de IA que dirige tu startup · <a href=\"companies.html\">Para empresas</a> · <a href=\"privacy.html\">Privacidad</a> · Interfaz descrita con datos ilustrativos.", "The idea is free to test. Startup is a flat €250 a month at any headcount. When you outgrow the raise you graduate to Completo, the whole company on one brain, priced by the size of your team.": "Probar la idea es gratis. Startup cuesta €250 fijos al mes con cualquier tamaño de plantilla. Cuando la ronda se te queda pequeña, pasas a Completo, toda la empresa en un solo cerebro, con precio según el tamaño de tu equipo.", "Every package unlocks the whole system: sales and CRM, finance, marketing, projects, support, people, legal, governance and workflows, on one brain, with the Companion and the Auditor always on.": "Cada paquete desbloquea el sistema completo: ventas y CRM, finanzas, marketing, proyectos, soporte, personas, legal, gobernanza y flujos de trabajo, en un solo cerebro, con el Compañero y el Auditor siempre activos.", "<span class=\"pinbadge\" data-i=\"5\">5</span><span>Ask anything, or say what changed: \"move the Riverbank call to 10\", \"we won the Delgado account\", \"draft a reply to the supplier\"</span><span class=\"mic\"></span>": "<span class=\"pinbadge\" data-i=\"5\">5</span><span>Pregunta lo que sea, o cuenta qué ha cambiado: \"mueve la llamada de Riverbank a las 10\", \"hemos ganado la cuenta de Delgado\", \"redacta una respuesta para el proveedor\"</span><span class=\"mic\"></span>", "<span class=\"pinbadge\" data-i=\"2\">2</span> <button class=\"b-btn\">Approve the supplier fix</button> <button class=\"b-btn ghost\">Send the Riverbank quote</button> <button class=\"b-btn ghost\">Read the rollup</button>": "<span class=\"pinbadge\" data-i=\"2\">2</span> <button class=\"b-btn\">Aprueba la corrección del proveedor</button> <button class=\"b-btn ghost\">Envía el presupuesto de Riverbank</button> <button class=\"b-btn ghost\">Lee el resumen</button>", "<span><i class=\"sw\" style=\"background:#B23A5C\"></i>The tools an SME needs, bought one by one, priced per seat</span> <span><i class=\"sw\" style=\"background:#3E7C5B\"></i>Firmgrove, whole company included, one package</span>": "<span><i class=\"sw\" style=\"background:#B23A5C\"></i>Las herramientas que necesita una pyme, compradas una a una, con precio por plaza</span> <span><i class=\"sw\" style=\"background:#3E7C5B\"></i>Firmgrove, toda la empresa incluida, un solo paquete</span>", "<a href=\"#brain-demo\">The brain</a> <a href=\"#glue-demo\">The companion</a> <a href=\"#audit-demo\">The audit</a> <a href=\"#day-demo\">Live in a day</a> <a href=\"#plans\">Pricing</a> <a href=\"startups.html\">Startups</a> <span class=\"lang\"><button aria-pressed=\"true\" data-lang-btn=\"en\">EN</button><button aria-pressed=\"false\" data-lang-btn=\"es\">ES</button></span>": "<a href=\"#brain-demo\">El cerebro</a> <a href=\"#glue-demo\">El compañero</a> <a href=\"#audit-demo\">La auditoría</a> <a href=\"#day-demo\">En marcha en un día</a> <a href=\"#plans\">Precios</a> <a href=\"startups.html\">Startups</a> <span class=\"lang\"><button aria-pressed=\"true\" data-lang-btn=\"en\">EN</button><button aria-pressed=\"false\" data-lang-btn=\"es\">ES</button></span>", "<span class=\"cap\" id=\"cap1\"> <span class=\"edn\">Idea</span> <div class=\"edd\">Free. Firmgrove evaluates it.</div> </span> <span class=\"cap\" id=\"cap2\"> <span class=\"edn\">Startup</span> <div class=\"edd\">The raise, run for you.</div> </span> <span class=\"cap\" id=\"cap3\"> <span class=\"edn\">Complete</span> <div class=\"edd\">The whole company, on one brain.</div> </span>": "<span class=\"cap\" id=\"cap1\"> <span class=\"edn\">Idea</span> <div class=\"edd\">Gratis. Firmgrove la evalúa.</div> </span> <span class=\"cap\" id=\"cap2\"> <span class=\"edn\">Startup</span> <div class=\"edd\">La ronda, gestionada por ti.</div> </span> <span class=\"cap\" id=\"cap3\"> <span class=\"edn\">Completo</span> <div class=\"edd\">Toda la empresa, en un solo cerebro.</div> </span>", "<a href=\"#idea\">The idea</a> <a href=\"#mentor\">The mentor</a> <a href=\"#studio\">The studio</a> <a href=\"#raise\">The raise</a> <a href=\"#proactive\">The companion</a> <a href=\"#plans\">Pricing</a> <a href=\"companies.html\">Companies</a> <span class=\"lang\"><button aria-pressed=\"true\" data-lang-btn=\"en\">EN</button><button aria-pressed=\"false\" data-lang-btn=\"es\">ES</button></span>": "<a href=\"#idea\">La idea</a> <a href=\"#mentor\">El mentor</a> <a href=\"#studio\">El estudio</a> <a href=\"#raise\">La ronda</a> <a href=\"#proactive\">El compañero</a> <a href=\"#plans\">Precios</a> <a href=\"companies.html\">Empresas</a> <span class=\"lang\"><button aria-pressed=\"true\" data-lang-btn=\"en\">EN</button><button aria-pressed=\"false\" data-lang-btn=\"es\">ES</button></span>", "<meta charset=\"utf-8\"/> <meta content=\"width=device-width, initial-scale=1.0\" name=\"viewport\"/> <title>Firmgrove for companies. Stop being the glue of your own company.</title> <meta content=\"One brain, one companion, one company. Every department on one graph, audited before anything reaches a customer, live in a day.\" name=\"description\"/> <link href=\"https://fonts.googleapis.com\" rel=\"preconnect\"/> <link crossorigin=\"\" href=\"https://fonts.gstatic.com\" rel=\"preconnect\"/> <link href=\"https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&amp;family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400;1,6..72,500&amp;display=swap\" rel=\"stylesheet\"/>": "<meta charset=\"utf-8\"/> <meta content=\"width=device-width, initial-scale=1.0\" name=\"viewport\"/> <title>Firmgrove para empresas. Deja de ser el pegamento de tu propia empresa.</title> <meta content=\"Un cerebro, un compañero, una empresa. Cada departamento en un solo lugar conectado, auditado antes de llegar a un cliente, en marcha en un día.\" name=\"description\"/> <link href=\"https://fonts.googleapis.com\" rel=\"preconnect\"/> <link crossorigin=\"\" href=\"https://fonts.gstatic.com\" rel=\"preconnect\"/> <link href=\"https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&amp;family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400;1,6..72,500&amp;display=swap\" rel=\"stylesheet\"/>", "<meta charset=\"utf-8\"/> <meta content=\"width=device-width, initial-scale=1.0\" name=\"viewport\"/> <title>Firmgrove for startups. You build the dream. Firmgrove runs the startup.</title> <meta content=\"The idea sprouts, the startup grows, the company stands. Three editions, one plant: evaluated free, raised for a flat price, run whole when the money arrives.\" name=\"description\"/> <link href=\"https://fonts.googleapis.com\" rel=\"preconnect\"/> <link crossorigin=\"\" href=\"https://fonts.gstatic.com\" rel=\"preconnect\"/> <link href=\"https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&amp;family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400;1,6..72,500&amp;display=swap\" rel=\"stylesheet\"/>": "<meta charset=\"utf-8\"/> <meta content=\"width=device-width, initial-scale=1.0\" name=\"viewport\"/> <title>Firmgrove para startups. Tú construyes el sueño. Firmgrove dirige la startup.</title> <meta content=\"La idea brota, la startup crece, la empresa se consolida. Tres ediciones, una sola planta: evaluada gratis, financiada por un precio fijo, dirigida por completo cuando llega el dinero.\" name=\"description\"/> <link href=\"https://fonts.googleapis.com\" rel=\"preconnect\"/> <link crossorigin=\"\" href=\"https://fonts.gstatic.com\" rel=\"preconnect\"/> <link href=\"https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&amp;family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400;1,6..72,500&amp;display=swap\" rel=\"stylesheet\"/>", "<svg aria-hidden=\"true\" fill=\"none\" viewbox=\"6 5 44 44\"> <defs> <lineargradient gradientunits=\"userSpaceOnUse\" id=\"nT\" x1=\"25\" x2=\"44\" y1=\"7\" y2=\"27\"><stop offset=\"0\" stop-color=\"#E58CA6\"></stop><stop offset=\"1\" stop-color=\"#B23A5C\"></stop></lineargradient> <lineargradient gradientunits=\"userSpaceOnUse\" id=\"nB\" x1=\"12\" x2=\"30\" y1=\"31\" y2=\"11\"><stop offset=\"0\" stop-color=\"#8F2C49\"></stop><stop offset=\"1\" stop-color=\"#B23A5C\"></stop></lineargradient> </defs> <path d=\"M28 47 V25\" stroke=\"#5C6473\" stroke-linecap=\"round\" stroke-width=\"2.4\"></path> <path d=\"M28 31 C15 31 12 18 14.5 11 C24 11 30.5 19 28 31 Z\" fill=\"url(#nB)\"></path> <path d=\"M28 27 C41 27 44 14 41.5 7 C32 7 25.5 15 28 27 Z\" fill=\"url(#nT)\"></path> </svg> Firmgrove<span class=\"dot\">.</span>": "<svg aria-hidden=\"true\" fill=\"none\" viewbox=\"6 5 44 44\"> <defs> <lineargradient gradientunits=\"userSpaceOnUse\" id=\"nT\" x1=\"25\" x2=\"44\" y1=\"7\" y2=\"27\"><stop offset=\"0\" stop-color=\"#E58CA6\"></stop><stop offset=\"1\" stop-color=\"#B23A5C\"></stop></lineargradient> <lineargradient gradientunits=\"userSpaceOnUse\" id=\"nB\" x1=\"12\" x2=\"30\" y1=\"31\" y2=\"11\"><stop offset=\"0\" stop-color=\"#8F2C49\"></stop><stop offset=\"1\" stop-color=\"#B23A5C\"></stop></lineargradient> </defs> <path d=\"M28 47 V25\" stroke=\"#5C6473\" stroke-linecap=\"round\" stroke-width=\"2.4\"></path> <path d=\"M28 31 C15 31 12 18 14.5 11 C24 11 30.5 19 28 31 Z\" fill=\"url(#nB)\"></path> <path d=\"M28 27 C41 27 44 14 41.5 7 C32 7 25.5 15 28 27 Z\" fill=\"url(#nT)\"></path> </svg> Firmgrove<span class=\"dot\">.</span>"};
+  window.FGT=(L==='es')?{"line1": "Tengo una idea.", "line2": "Es una idea muy buena.", "line3": "Ahora es una empresa.", "mQ": "¿Cómo pongo precio a algo que nadie ha comprado nunca?", "mA": "La respuesta de un veterano: no estás poniendo precio al producto. Tres lecturas:<div class=\"read\"><b>Ponle precio al dolor, no a tu coste.</b> ¿Cuánto les cuesta el problema al mes? Tu precio vive por debajo de esa cifra, no por encima de tus gastos.</div><div class=\"read\"><b>Ancla alto, negocia con las condiciones.</b> Cede en el onboarding, la duración del contrato o los plazos de pago. Nunca en el precio; el primer descuento se convierte en el precio.</div><div class=\"read\"><b>Tus primeros diez clientes compran un resultado.</b> Vende el resultado y el servicio que lo rodea. El producto por sí solo todavía no es lo que pagan.</div><div class=\"rec\"><b>Ya está hecho.</b> Hay tres escenarios de precio modelados contra tu runway, y un guión para testar precio en tus próximas cinco llamadas con clientes.</div>", "elevator": "\"Seguimiento a nivel de palet que se paga solo con las mermas que evita. Hardware instalado en un día, una suscripción, primero los distribuidores medianos.\"", "ACT2_LEFT": ["Elevator pitch", "Pitch deck", "Plan de negocio", "El modelo", "Cap table", "Marca"], "ACT2_RIGHT": ["Plan GTM", "Spec del MVP", "SEO y GEO", "PR", "Data room", "Pipeline de inversores"], "ACT3_LEFT": ["Ventas y CRM", "Motor de marketing", "Finanzas", "Proyectos", "Soporte", "Personas y RRHH"], "ACT3_RIGHT": ["Producto", "Legal y admin", "Consejo y gobernanza", "Estrategia", "Workflows", "Capital y financiación"], "title": "Firmgrove para startups. Tú construyes el sueño. Firmgrove dirige la startup.", "desc": "La idea germina, la startup crece, la empresa se sostiene. Tres ediciones, una misma planta: evaluada gratis, la ronda por un precio fijo, dirigida entera cuando llega el dinero.", "footer": "Firmgrove &middot; El sistema operativo con IA que dirige tu startup &middot; <a href=\"companies.html\">Para empresas</a> &middot; <a href=\"privacy.html\">Privacidad</a> &middot; Interfaz mostrada con datos ilustrativos."}:{"line1": "I have an idea.", "line2": "It is a really good idea.", "line3": "Now it's a company.", "mQ": "How do I price something nobody has ever bought?", "mA": "The veteran answer: you are not pricing the product. Three reads:<div class=\"read\"><b>Price the pain, not your cost.</b> What does the problem cost them per month? Your price lives under that number, not above your expenses.</div><div class=\"read\"><b>Anchor high, negotiate with terms.</b> Give ground on onboarding, contract length or payment timing. Never on the price itself; the first discount becomes the price.</div><div class=\"read\"><b>Your first ten buyers are buying an outcome.</b> Sell the result and the service around it. The product alone is not what they are paying for yet.</div><div class=\"rec\"><b>Already done.</b> Three pricing scenarios are modeled against your runway, and a price-test script is drafted for your next five customer calls.</div>", "elevator": "\"Pallet-level tracking that pays for itself in spoilage saved. Hardware installed in a day, one subscription, mid-size distributors first.\"", "ACT2_LEFT": ["Elevator pitch", "Pitch deck", "Business plan", "The model", "Cap table", "Brand"], "ACT2_RIGHT": ["GTM plan", "MVP spec", "SEO & GEO", "PR", "Data room", "Investor pipeline"], "ACT3_LEFT": ["Sales & CRM", "Marketing engine", "Finance", "Projects", "Customer support", "People & HR"], "ACT3_RIGHT": ["Product", "Legal & admin", "Board & governance", "Strategy", "Workflows", "Capital & fundraising"], "title": "Firmgrove for startups. You build the dream. Firmgrove runs the startup.", "desc": "The idea sprouts, the startup grows, the company stands. Three editions, one plant: evaluated free, raised for a flat price, run whole when the money arrives.", "footer": "Firmgrove &middot; The AI operating system that runs your startup &middot; <a href=\"companies.html\">For companies</a> &middot; <a href=\"privacy.html\">Privacy</a> &middot; Interface described with illustrative data."};
+  function norm(s){return s.replace(/\s+/g,' ').trim();}
+  function apply(){
+    if(L==='es'){
+      var D=window.FG_ES;
+      var els=document.body.querySelectorAll('*');
+      for(var i=0;i<els.length;i++){
+        var el=els[i]; var tn=el.tagName;
+        if(tn==='SCRIPT'||tn==='STYLE'||tn==='SVG'||tn==='PATH') continue;
+        var k=norm(el.innerHTML);
+        if(k && Object.prototype.hasOwnProperty.call(D,k)){ el.innerHTML=D[k]; }
+      }
+      var w=document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, null, false);
+      var nodes=[]; var nd; while(nd=w.nextNode()){ nodes.push(nd); }
+      for(var j=0;j<nodes.length;j++){
+        var node=nodes[j]; var pt=node.parentNode&&node.parentNode.tagName;
+        if(pt==='SCRIPT'||pt==='STYLE') continue;
+        var raw=node.nodeValue; var t=norm(raw);
+        if(t && Object.prototype.hasOwnProperty.call(D,t)){ node.nodeValue=raw.replace(t, D[t]); }
+      }
+      if(window.FGT.footer){var f=document.querySelector('footer'); if(f) f.innerHTML=window.FGT.footer;}
+      if(window.FGT.title) document.title=window.FGT.title;
+      var m=document.querySelector('meta[name="description"]'); if(m&&window.FGT.desc) m.setAttribute('content',window.FGT.desc);
+    }
+    document.querySelectorAll('[data-lang-btn]').forEach(function(b){
+      var l=b.getAttribute('data-lang-btn');
+      b.setAttribute('aria-pressed', l===L?'true':'false');
+      b.addEventListener('click',function(){localStorage.setItem('fg_lang',l); location.href=location.pathname+'?lang='+l;});
+    });
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',apply); else apply();
+})();
+</script>
+</head>
+<body>
+
+<nav id="topnav">
+  <div class="inner">
+    <a class="brand" href="index.html">
+      <svg viewBox="6 5 44 44" fill="none" aria-hidden="true">
+        <defs>
+          <linearGradient id="nT" gradientUnits="userSpaceOnUse" x1="25" y1="7" x2="44" y2="27"><stop offset="0" stop-color="#E58CA6"/><stop offset="1" stop-color="#B23A5C"/></linearGradient>
+          <linearGradient id="nB" gradientUnits="userSpaceOnUse" x1="12" y1="31" x2="30" y2="11"><stop offset="0" stop-color="#8F2C49"/><stop offset="1" stop-color="#B23A5C"/></linearGradient>
+        </defs>
+        <path d="M28 47 V25" stroke="#5C6473" stroke-width="2.4" stroke-linecap="round"/>
+        <path d="M28 31 C15 31 12 18 14.5 11 C24 11 30.5 19 28 31 Z" fill="url(#nB)"/>
+        <path d="M28 27 C41 27 44 14 41.5 7 C32 7 25.5 15 28 27 Z" fill="url(#nT)"/>
+      </svg>
+      Firmgrove<span class="dot">.</span>
+    </a>
+    <div class="links">
+      <a href="#idea">The idea</a>
+      <a href="#mentor">The mentor</a>
+      <a href="#studio">The studio</a>
+      <a href="#raise">The raise</a>
+      <a href="#proactive">The companion</a>
+      <a href="#plans">Pricing</a>
+      <a href="companies.html">Companies</a>
+      <span class="lang"><button data-lang-btn="en" aria-pressed="true">EN</button><button data-lang-btn="es" aria-pressed="false">ES</button></span>
+    </div>
+  </div>
+</nav>
+
+<!-- ================= THREE ACTS: idea, startup, company ================= -->
+<div id="scene-wrap">
+  <div id="stage">
+    <div id="ground"></div>
+
+    <div id="tree">
+      <svg id="wood" aria-hidden="true"></svg>
+
+      <div id="ideaSprout">
+        <svg viewBox="0 0 56 56" role="img" aria-label="The idea, sprouting">
+          <defs>
+            <linearGradient id="sT" gradientUnits="userSpaceOnUse" x1="25" y1="7" x2="44" y2="27">
+              <stop offset="0" stop-color="#E58CA6"/><stop offset="1" stop-color="#B23A5C"/>
+            </linearGradient>
+            <linearGradient id="sB" gradientUnits="userSpaceOnUse" x1="12" y1="31" x2="30" y2="11">
+              <stop offset="0" stop-color="#8F2C49"/><stop offset="1" stop-color="#B23A5C"/>
+            </linearGradient>
+          </defs>
+          <path class="leaf bot" id="iLeafL" d="M28 31 C15 31 12 18 14.5 11 C24 11 30.5 19 28 31 Z" fill="url(#sB)"/>
+          <path class="leaf top" id="iLeafR" d="M28 27 C41 27 44 14 41.5 7 C32 7 25.5 15 28 27 Z" fill="url(#sT)"/>
+        </svg>
+      </div>
+      <!-- leaves and tags are appended here by script -->
+    </div>
+
+    <div id="ideal">
+      <span class="line on" id="line1"></span>
+      <span class="line" id="line2">It is a really good idea.</span>
+      <span class="line" id="line3">Now it's a company.</span>
+    </div>
+
+    <div id="stagecap">
+      <span class="cap" id="cap1">
+        <span class="edn">Idea</span>
+        <div class="edd">Free. Firmgrove evaluates it.</div>
+      </span>
+      <span class="cap" id="cap2">
+        <span class="edn">Startup</span>
+        <div class="edd">The raise, run for you.</div>
+      </span>
+      <span class="cap" id="cap3">
+        <span class="edn">Complete</span>
+        <div class="edd">The whole company, on one brain.</div>
+      </span>
+    </div>
+
+    <div id="brainlabel">
+      One brain.
+      <div class="lwrap">
+        <div class="lset la"><div class="sub">Everything in one place</div><div class="hands">Every number agrees.</div></div>
+        <div class="lset lb"><div class="sub">Every number agrees</div><div class="hands">Your startup, in your hands.</div></div>
+      </div>
+    </div>
+    <div id="complabel">
+      One companion.
+      <div class="lwrap">
+        <div class="lset la"><div class="sub">Experience, installed</div><div class="hands">The co-founder who has done it before, helping you do it now.</div></div>
+        <div class="lset lb"><div class="sub">No tool to learn</div><div class="hands">You talk. It runs the groundwork.</div></div>
+      </div>
+    </div>
+
+    <div id="headline">
+      <span class="eyebrow">For startups</span>
+      <h1>You build the dream. Firmgrove runs the startup.</h1>
+      <p class="subline">It grows with you, from the first idea to the exit.</p>
+    </div>
+
+    <div id="hint">Scroll</div>
+  </div>
+</div>
+
+<!-- ================= 1 · THE IDEA ================= -->
+<section class="screen on-surface" id="idea">
+  <div class="jwrap">
+    <div class="pain-block reveal-j">
+      <p class="pain">"Everyone says validate before you spend your savings. Nobody says how."</p>
+      <p class="pain-who">The idea, before the leap</p>
+    </div>
+    <div class="duo">
+      <div class="frame reveal-j">
+        <div class="framebar"><span class="fdot"></span>Idea evaluation &middot; free &middot; Illustrative data</div>
+        <div class="framebody">
+          <p class="eval-in">"Subscription pallet tracking for mid-size food distributors. Hardware plus a monthly fee."</p>
+          <div class="eval-row"><span>Opportunity</span><div class="ebar"><i style="--w:76%"></i></div><b>7.6</b></div>
+          <div class="eval-row"><span>Wedge</span><div class="ebar"><i style="--w:68%"></i></div><b>6.8</b></div>
+          <div class="eval-row"><span>Competition heat</span><div class="ebar"><i class="warm" style="--w:54%"></i></div><b>5.4</b></div>
+          <div class="eval-gaps">
+            <div class="gap"><b>Gap.</b> No cost-of-hardware model yet. The Studio drafts it with you.</div>
+            <div class="gap"><b>Gap.</b> Two incumbents own the enterprise tier. Positioning narrows you to mid-size.</div>
+            <div class="gap"><b>Gap.</b> No distribution insight. The GTM plan starts with twelve distributor interviews.</div>
+          </div>
+          <button class="achip">Run the free evaluation</button>
+        </div>
+      </div>
+      <div class="fix reveal-j">
+        <h2>First, an honest read. Free.</h2>
+        <p>Describe the idea the way you would to a friend. Firmgrove evaluates it the way an investor would: the market, the wedge, the competition, and <b>every gap mapped to the thing that closes it.</b></p>
+        <p class="dcaption">No deck required, no signup gauntlet, no report to carry somewhere else. <b>The read opens the system that then runs what it recommended.</b></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 2 · THE MENTOR GAP ================= -->
+<section class="screen on-porcelain" id="mentor">
+  <div class="jwrap">
+    <div class="pain-block reveal-j">
+      <p class="pain">"I don't need someone to tell me what to do. I need someone who knows what to do and helps me do it."</p>
+      <p class="pain-who">Two hundred YouTube hours later, still alone</p>
+    </div>
+    <div class="duo rev">
+      <div class="frame reveal-j" id="mchat">
+        <div class="framebar"><span class="fdot"></span>The Companion &middot; Illustrative data</div>
+        <div class="chatbody">
+          <div class="msg you-msg" id="m2you"><div class="who">You</div><div class="you-text"></div></div>
+          <div class="msg comp" id="m2comp"><div class="who">Companion</div><div class="comp-text"></div></div>
+          <div class="actions" id="m2actions">
+            <button class="achip">Compare the scenarios</button>
+            <button class="achip">Read the call script</button>
+            <button class="achip">Ask a follow-up</button>
+          </div>
+        </div>
+      </div>
+      <div class="fix reveal-j">
+        <h2>The co-founder who has done it before, helping you do it now.</h2>
+        <p>Ask it anything a veteran would know: how rounds actually work, what investors read first, what to do this week. It answers with the playbook and the why, <b>and then it does the work with you.</b></p>
+        <p class="dcaption">Advice tells you what to do. <b>This one opens the documents.</b></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 3 · THE STUDIO ================= -->
+<section class="screen on-surface" id="studio">
+  <div class="jwrap">
+    <div class="pain-block reveal-j">
+      <p class="pain">"I don't know what goes in a pitch deck. Or a business plan. I have never done any of this."</p>
+      <p class="pain-who">First company, week one</p>
+    </div>
+    <div class="duo">
+      <div class="studio-stack reveal-j">
+        <div class="frame">
+          <div class="framebar"><span class="fdot"></span>The Studio &middot; drafted from your interview</div>
+          <div class="framebody">
+            <p class="s-elevator" id="s-elevator"></p>
+            <div class="s-grid">
+              <div class="s-card"><b>Pitch deck</b><span>Ten slides, the equity story built in</span><i class="tick"></i></div>
+              <div class="s-card"><b>Business plan</b><span>The three-year model, balanced to zero</span><i class="tick"></i></div>
+              <div class="s-card"><b>MVP spec</b><span>V1 scope, with a not-in-v1 list</span><i class="tick"></i></div>
+              <div class="s-card"><b>One-pager</b><span>For the first investor email</span><i class="tick"></i></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="fix reveal-j">
+        <h2>Experience, installed. First company, veteran output.</h2>
+        <p>You talk. The Studio drafts the elevator pitch, the deck, the plan, the model and the MVP spec, <b>all from one brain, so every number agrees everywhere.</b></p>
+        <p class="dcaption">Twenty years of how-it's-done, in your first week. <b>The Auditor checks every claim before anything leaves.</b></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 4 · THE RAISE ================= -->
+<section class="screen on-porcelain" id="raise">
+  <div class="jwrap">
+    <div class="pain-block reveal-j">
+      <p class="pain">"I need investors and I don't know the game: who, in what order, with what."</p>
+      <p class="pain-who">The raise is a full-time job you don't have time for</p>
+    </div>
+    <div class="duo rev">
+      <div class="raise-stack reveal-j">
+        <div class="frame">
+          <div class="framebar"><span class="fdot"></span>Capital &middot; Illustrative data</div>
+          <div class="framebody">
+            <div class="pipe">
+              <div class="pcol"><b>24</b><span>Thesis-matched funds</span></div>
+              <div class="pcol"><b>12</b><span>Contacted, sequenced</span></div>
+              <div class="pcol"><b>3</b><span>Meetings booked</span></div>
+            </div>
+            <div class="meter-row"><span>Data room</span><div class="meter"><i id="droom"></i></div><b>84%</b></div>
+            <p class="meter-note">Two gaps: the updated cap table, the Q2 cohort sheet. Both drafted, waiting for you.</p>
+            <div class="artifact" id="j-art">
+              <div class="doc-title">Investor update &middot; October &middot; draft</div>
+              <p>We closed October at <span class="figure bad" id="j-bad">ARR €412k</span><span class="figure" id="j-good" style="opacity:0"> ARR €409k</span>, net revenue retention 118%.</p>
+              <div class="stamp" id="j-stamp">Blocked</div>
+              <div class="stamp stamp-pass" id="j-stamp2">Pass</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="fix reveal-j">
+        <h2>The raise, run like it has been done before.</h2>
+        <p>The pipeline finds the funds whose thesis matches you, sequences the outreach, keeps the data room diligence-ready, <b>and nothing reaches an investor unchecked.</b> The wrong number dies in the draft.</p>
+        <p class="dcaption"><b>The difference between AI output and professional output is an audit.</b></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 5 · THE PROACTIVE COMPANION ================= -->
+<section class="screen on-surface" id="proactive">
+  <div class="jwrap">
+    <div class="pain-block reveal-j">
+      <p class="pain">"A chatbot waits for me to ask. Half the time I don't even know what to ask."</p>
+      <p class="pain-who">You don't know what you don't know</p>
+    </div>
+    <div class="duo">
+      <div class="frame reveal-j" id="fbrief">
+        <div class="framebar"><span class="fdot"></span>07:30 &middot; Your day &middot; Illustrative data</div>
+        <div class="framebody">
+          <p class="jb-line">Good morning. Three things today. Two are already prepared.</p>
+          <p class="jb-line"><b>Northlane opened your deck three times last night.</b> Partner attention; a call usually follows within the week. Your Q&amp;A brief is ready.</p>
+          <p class="jb-line jb-risk"><b>Your trademark window closes in 19 days.</b> Nobody asked me to watch it. The filing is drafted; it needs your signature, not your evening.</p>
+          <div class="jb-day">
+            <div class="jb-slot"><span class="t">10:00</span><span class="d">Atlas &middot; follow-up call<small>Their two objections, answered in your brief</small></span></div>
+            <div class="jb-slot"><span class="t">15:00</span><span class="d">Candidate interview &middot; first engineer<small>Scorecard ready, two questions target the gap</small></span></div>
+            <div class="jb-slot"><span class="t">17:30</span><span class="d">Held free &middot; sign the filing<small>Reviewed and annotated for you</small></span></div>
+          </div>
+          <div class="actions" id="fbrief-actions">
+            <button class="achip">Open the Q&amp;A brief</button>
+            <button class="achip">Review the filing</button>
+          </div>
+        </div>
+      </div>
+      <div class="fix reveal-j">
+        <h2>It speaks first. Your day arrives decided.</h2>
+        <p>A chatbot answers questions. The Companion already knows your company, so it warns you before you ask, prepares what you did not know you needed, <b>and opens your morning like a co-founder, never a dashboard.</b></p>
+        <p class="dcaption">The wow is not that it answered. <b>It is that nobody asked.</b></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= PRICING: the three faces meet their numbers ================= -->
+<section class="screen on-porcelain" id="plans">
+  <div class="jwrap">
+    <div class="fix reveal-j" style="max-width:720px">
+      <h2>One ladder. Idea, Startup, Completo.</h2>
+      <p>The idea is free to test. Startup is a flat €250 a month at any headcount. When you outgrow the raise you graduate to Completo, the whole company on one brain, priced by the size of your team. <b>One plant, one brain, growing with you.</b></p>
+    </div>
+    <div class="pkg-grid">
+      <div class="pkg reveal-j">
+        <div class="pkg-head"><span class="pkg-name">Idea</span><span class="pkg-size">Free</span></div>
+        <div class="pkg-price">Free</div>
+        <ul class="pkg-list">
+          <li>The brain, the Companion and the Auditor</li>
+          <li>The idea evaluation</li>
+          <li>The Fundability Scan</li>
+          <li>Setup drafts, ready if you continue</li>
+        </ul>
+      </div>
+      <div class="pkg hero-pkg reveal-j">
+        <div class="pkg-head"><span class="pkg-name">Startup</span><span class="pkg-size">Flat €250</span></div>
+        <div class="pkg-price">€250<span>/mo, flat, any team size</span></div>
+        <p class="plus-line">Everything in Idea, plus</p>
+        <ul class="pkg-list">
+          <li>The raise: cap table, pitch, data room, investor pipeline, updates, diligence</li>
+          <li>Studio: deck, business plan, model, one-pager</li>
+          <li>Product: MVP spec and roadmap</li>
+          <li>Brand and positioning, with SEO, GEO and PR lite</li>
+          <li>Finance and strategy</li>
+          <li>People and legal, lite</li>
+        </ul>
+      </div>
+      <div class="pkg reveal-j">
+        <div class="pkg-head"><span class="pkg-name">Completo</span><span class="pkg-size">By team size</span></div>
+        <div class="pkg-price">from €500<span>/mo</span></div>
+        <p class="plus-line">Everything in Startup, plus</p>
+        <ul class="pkg-list">
+          <li>Client CRM and revenue</li>
+          <li>The full marketing engine: campaigns, email, social, automation</li>
+          <li>Customer support</li>
+          <li>People, HR and legal, full</li>
+          <li>Board and governance</li>
+          <li>Workflows and automation</li>
+        </ul>
+        <a class="pkg-link" href="companies.html">See Firmgrove for companies</a>
+      </div>
+    </div>
+    <p class="growline reveal-j">Runway spent on software is runway not spent on product.</p>
+  </div>
+</section>
+
+<!-- ================= HONESTY + CLOSE ================= -->
+<div class="honesty reveal-j">
+  <h2>What Firmgrove does not do.</h2>
+  <p>It does not replace your engineers, your product, or your judgment. Hiring, legal commitments and money movements are prepared by the system and decided by you, every time. The admission is what makes the rest believable.</p>
+</div>
+
+<div class="cta-final">
+  <h2 class="reveal-j">You build the dream. Firmgrove runs the startup.</h2>
+  <p class="reveal-j">From the idea through the raise, audited before anything ships.</p>
+  <a class="btn-ink reveal-j" href="mailto:founders@firmgrove.com">Request a founding seat</a>
+</div>
+
+<footer>
+  Firmgrove &middot; The AI operating system that runs your startup &middot; <a href="companies.html">For companies</a> &middot; <a href="privacy.html">Privacy</a> &middot; Interface described with illustrative data.
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollToPlugin.min.js"></script>
+<script>
+(function(){
+  "use strict";
+  gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
+  var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  // the story always starts at the idea: no scroll restoration on reload
+  if("scrollRestoration" in history){ history.scrollRestoration = "manual"; }
+  window.scrollTo(0,0);
+
+  var stage = document.getElementById("stage");
+  var tree = document.getElementById("tree");
+  var wood = document.getElementById("wood");
+  var iLeafL = document.getElementById("iLeafL");
+  var iLeafR = document.getElementById("iLeafR");
+
+  /* ============ state first, always ============ */
+  var S = {
+    stemBirth:0,
+    fall:0,                       // the seed leaves fall
+    trunk:0, crown:0, foliage:0, tags1:0, labels:0,   // act 2: the startup bush
+    fall2:0,                      // the bush sheds
+    trunkExt:0, crown2:0, foliage2:0, tags2:0,        // act 3: the company tree
+    labelSwap:0,                                      // startup labels -> company labels
+    sway:0, headline:0
+  };
+  var built = false;
+
+  var LEAF_TOP = "M28 27 C41 27 44 14 41.5 7 C32 7 25.5 15 28 27 Z";
+  var LEAF_BOT = "M28 31 C15 31 12 18 14.5 11 C24 11 30.5 19 28 31 Z";
+  function leafSVG(size, variant, gid, flip){
+    var d = variant ? LEAF_TOP : LEAF_BOT;
+    var g1 = variant ? "#E58CA6" : "#8F2C49";
+    return '<svg width="'+size+'" height="'+size+'" viewBox="0 0 56 56">'+
+      '<defs><linearGradient id="'+gid+'" x1="0" y1="0" x2="1" y2="1">'+
+      '<stop offset="0" stop-color="'+g1+'"/><stop offset="1" stop-color="#B23A5C"/></linearGradient></defs>'+
+      '<path d="'+d+'" fill="url(#'+gid+')" transform="translate(-14,-2) scale(1.5)'+(flip? ' translate(56,0) scale(-1,1)':'')+'"/></svg>';
+  }
+
+  /* act 2: what a founder must produce. act 3: the modules that run a company. */
+  var ACT2_LEFT  = FGT.ACT2_LEFT;
+  var ACT2_RIGHT = FGT.ACT2_RIGHT;
+  var ACT3_LEFT  = FGT.ACT3_LEFT;
+  var ACT3_RIGHT = FGT.ACT3_RIGHT;
+
+  var ROOT = {x:50, y:72};
+  var SPROUT_BOX = 64;
+  var STEM_W0 = 2.4 * SPROUT_BOX/56;
+  var PRE = 22/56 * SPROUT_BOX;
+
+  var W=0,H=0;
+  var trunkA=null, lenA=0, trunkB=null, lenB=0;
+  var segs=[], tips=[], leaves1=[], leaves2=[], tags1=[], tags2=[];
+  function px(p){ return W*p/100; }
+  function py(p){ return H*p/100; }
+
+  function growLimb(x, y, ang, len, depth, gen, bucket){
+    var x2 = x + Math.cos(ang)*len;
+    var y2 = y - Math.sin(ang)*len;
+    var bend = 0.13*len*Math.sin(depth*2.9 + gen*1.7);
+    var mx = (x+x2)/2 + Math.cos(ang+Math.PI/2)*bend;
+    var my = (y+y2)/2 - Math.sin(ang+Math.PI/2)*bend;
+    segs.push({d:"M"+x+","+y+" Q"+mx+","+my+" "+x2+","+y2, depth:depth, bucket:bucket});
+    if(depth===0){ tips.push({x:x2,y:y2,bucket:bucket}); return; }
+    var spread = 0.64 - depth*0.04;
+    growLimb(x2,y2, ang+spread*(0.9+0.2*Math.sin(gen*5)), len*0.68, depth-1, gen*2+1, bucket);
+    growLimb(x2,y2, ang-spread*(0.9+0.2*Math.cos(gen*3)), len*0.70, depth-1, gen*2+2, bucket);
+    if(depth===2){ tips.push({x:x2,y:y2,bucket:bucket, mid:true}); }
+  }
+
+  function build(){
+    W = stage.clientWidth; H = stage.clientHeight;
+    wood.setAttribute("viewBox","0 0 "+W+" "+H);
+    wood.innerHTML = "";
+    tree.querySelectorAll(".tleaf,.tag").forEach(function(el){ el.remove(); });
+    segs=[]; tips=[]; leaves1=[]; leaves2=[]; tags1=[]; tags2=[];
+
+    var x0 = px(ROOT.x);
+    var boxTop = py(ROOT.y) - 0.88*SPROUT_BOX;
+    var y0 = boxTop + 47/56*SPROUT_BOX;   // the mark's exact stem bottom
+    var yPre = y0 - PRE;                   // the mark's exact stem top
+    var base1 = py(56);                    // the bush crown base
+    var base2 = py(50);                    // the tree crown base: a short push, the trunk stays low
+
+    // trunk A: ground to the bush. dead-straight first stretch = the mark's stem.
+    var dA = "M"+x0+","+y0+" L"+x0+","+yPre+
+      " C"+(x0-6)+","+(yPre-(yPre-base1)*0.4)+" "+(x0+6)+","+(yPre-(yPre-base1)*0.72)+" "+x0+","+base1;
+    trunkA = mkLimb(dA, STEM_W0);
+    lenA = trunkA.getTotalLength();
+    trunkA.style.strokeDasharray = lenA;
+    trunkA.style.strokeDashoffset = lenA;
+
+    // trunk B: the bush becomes the tree, the trunk pushes higher
+    var dB = "M"+x0+","+base1+" C"+(x0+5)+","+(base1-(base1-base2)*0.4)+" "+(x0-5)+","+(base1-(base1-base2)*0.7)+" "+x0+","+base2;
+    trunkB = mkLimb(dB, 4.5);
+    lenB = trunkB.getTotalLength();
+    trunkB.style.strokeDasharray = lenB;
+    trunkB.style.strokeDashoffset = lenB;
+
+    // the startup bush: long to the sides
+    growLimb(x0, base1, Math.PI/2, H*0.055, 3, 1, 1);
+    growLimb(x0, base1, Math.PI/2+0.95, H*0.075, 2, 7, 1);
+    growLimb(x0, base1, Math.PI/2-0.95, H*0.075, 2, 11, 1);
+    growLimb(x0, base1+6, Math.PI/2+1.25, H*0.065, 2, 17, 1);
+    growLimb(x0, base1+6, Math.PI/2-1.25, H*0.065, 2, 23, 1);
+
+    // the company tree: a dome. shoulders between the center and the sides
+    // make the top round; reach tapers as the angle drops toward the laterals.
+    growLimb(x0, base2, Math.PI/2, H*0.075, 3, 31, 2);
+    growLimb(x0, base2, Math.PI/2+0.45, H*0.075, 3, 61, 2);
+    growLimb(x0, base2, Math.PI/2-0.45, H*0.075, 3, 67, 2);
+    growLimb(x0, base2, Math.PI/2+0.95, H*0.08, 3, 37, 2);
+    growLimb(x0, base2, Math.PI/2-0.95, H*0.08, 3, 41, 2);
+    growLimb(x0, base2+8, Math.PI/2+1.35, H*0.068, 2, 47, 2);
+    growLimb(x0, base2+8, Math.PI/2-1.35, H*0.068, 2, 53, 2);
+
+    segs.forEach(function(s){
+      var wdt = s.bucket===1 ? [1.8,2.4,3.2,4.2][s.depth] : [2.4,3.2,4.4,5.8][s.depth];
+      var p = mkLimb(s.d, wdt);
+      var len = p.getTotalLength();
+      p.style.strokeDasharray = len;
+      p.style.strokeDashoffset = len;
+      s.p = p; s.len = len;
+    });
+
+    // foliage per act
+    tips.forEach(function(t,i){
+      var isBush = t.bucket===1;
+      var size = isBush ? (t.mid ? 18 : 24) : (t.mid ? 30 : 40);
+      var el = document.createElement("div");
+      el.className = "tleaf" + (t.mid && i%3===0 ? " back" : "");
+      el.innerHTML = leafSVG(size, i%2, "lg"+i, t.x<x0);
+      el.style.left = (t.x/W*100)+"%";
+      el.style.top = (t.y/H*100)+"%";
+      tree.appendChild(el);
+      var rec = {el:el, x:t.x, y:t.y, ph:i*1.7, rot:(t.x<x0? -1:1)*(12+(i%3)*9)};
+      (isBush? leaves1 : leaves2).push(rec);
+    });
+    orderByHeight(leaves1);
+    orderByHeight(leaves2);
+
+    // chips per act, same columns, different casts
+    wireTags(ACT2_LEFT,  leaves1.filter(function(l){return l.x < x0;}), 15, tags1);
+    wireTags(ACT2_RIGHT, leaves1.filter(function(l){return l.x >= x0;}), 85, tags1);
+    wireTags(ACT3_LEFT,  leaves2.filter(function(l){return l.x < x0;}), 15, tags2);
+    wireTags(ACT3_RIGHT, leaves2.filter(function(l){return l.x >= x0;}), 85, tags2);
+
+    built = true;
+  }
+  function orderByHeight(arr){
+    var ys = arr.map(function(l){return l.y;});
+    var minY=Math.min.apply(null,ys), maxY=Math.max.apply(null,ys);
+    arr.forEach(function(l){ l.order = 1-((l.y-minY)/((maxY-minY)||1)); });
+  }
+  function wireTags(labels, pool, colX, bucket){
+    pool = pool.slice().sort(function(a,b){ return a.y-b.y; });
+    if(!pool.length) return;
+    var used = [];
+    labels.forEach(function(lab, i){
+      var idx = Math.round(i*(pool.length-1)/(Math.max(labels.length-1,1)));
+      while(used.indexOf(pool[idx])>=0 && idx<pool.length-1) idx++;
+      var leaf = pool[idx]; used.push(leaf);
+      var cx = px(colX);
+      var cy = py(26) + i*(py(38)/(labels.length-1));
+      var tg = document.createElement("div");
+      tg.className = "tag";
+      tg.textContent = lab;
+      tg.style.left = (cx/W*100)+"%";
+      tg.style.top = (cy/H*100)+"%";
+      tree.appendChild(tg);
+      var ln = document.createElementNS("http://www.w3.org/2000/svg","line");
+      ln.setAttribute("class","leader");
+      ln.setAttribute("x1", cx + (colX<50? 46 : -46));
+      ln.setAttribute("y1", cy);
+      ln.setAttribute("x2", leaf.x);
+      ln.setAttribute("y2", leaf.y);
+      wood.appendChild(ln);
+      var len = Math.hypot(leaf.x-cx, leaf.y-cy);
+      ln.style.strokeDasharray = len;
+      ln.style.strokeDashoffset = len;
+      bucket.push({el:tg, ln:ln, len:len, order:i/labels.length, ph:i});
+    });
+  }
+  function mkLimb(d, wdt){
+    var p = document.createElementNS("http://www.w3.org/2000/svg","path");
+    p.setAttribute("class","limb");
+    p.setAttribute("d", d);
+    p.setAttribute("stroke-width", wdt);
+    wood.appendChild(p);
+    return p;
+  }
+
+  function bounce(k){
+    if(k<=0) return 0;
+    if(k>=1) return 1;
+    var c1=1.20158, c3=c1+1, x=k-1;
+    return 1 + c3*x*x*x + c1*x*x;
+  }
+  function seg01(v, from, span){ return Math.min(Math.max((v-from)/span, 0), 1); }
+
+  var mouseX = 0;
+  window.addEventListener("mousemove", function(e){
+    mouseX = (e.clientX / window.innerWidth - 0.5);
+  });
+
+  /* ============ draw ============ */
+  var clock={t:0};
+  var sproutBloomed = false;
+  function draw(){
+    if(!built) return;
+    var time = clock.t;
+
+    // the seed leaves fall as act 2 begins
+    if(sproutBloomed){
+      var f = S.fall;
+      iLeafL.style.transform = "translate("+(-f*30)+"px,"+(f*95)+"px) rotate("+(-f*140)+"deg) scale("+(1-f*0.2)+")";
+      iLeafR.style.transform = "translate("+(f*34)+"px,"+(f*88)+"px) rotate("+(f*150)+"deg) scale("+(1-f*0.2)+")";
+      iLeafL.style.opacity = Math.max(0, 1-f*1.15);
+      iLeafR.style.opacity = Math.max(0, 1-f*1.15);
+    }
+
+    // one stem: born at load, grown by act 2, extended and thickened by act 3
+    var drawnA = PRE*S.stemBirth + (lenA - PRE)*S.trunk;
+    trunkA.style.strokeDashoffset = lenA - drawnA;
+    trunkA.setAttribute("stroke-width", (STEM_W0 + 2.2*S.trunk + 1.8*S.trunkExt).toFixed(2));
+    trunkB.style.strokeDashoffset = lenB*(1-S.trunkExt);
+    trunkB.setAttribute("stroke-width", (3.2 + 2.2*S.trunkExt).toFixed(2));
+
+    // limbs: the bush grows on S.crown and DE-GROWS during the shed, twigs first,
+    // while the tree's thicker limbs grow on S.crown2
+    segs.forEach(function(s){
+      var from = [0.55,0.34,0.16,0][s.depth];
+      var span = [0.35,0.34,0.3,0.24][s.depth];
+      var drawn;
+      if(s.bucket===1){
+        var retreat = seg01(S.fall2, (3-s.depth)*0.14, 0.45);
+        drawn = seg01(S.crown, from, span) * (1-retreat);
+      } else {
+        drawn = seg01(S.crown2, from, span);
+      }
+      s.p.style.strokeDashoffset = s.len*(1-drawn);
+    });
+
+    // act 2 foliage blooms, then sheds in act 3
+    leaves1.forEach(function(l, i){
+      var lp = seg01(S.foliage, l.order*0.55, 0.4);
+      var f2 = seg01(S.fall2, (i%7)*0.05, 0.6);
+      var flut = Math.sin(time*1.1 + l.ph)*3.2*S.sway;
+      var dy = f2*(py(ROOT.y) - l.y)*0.9;
+      var dx = Math.sin(l.ph)*30*f2;
+      l.el.style.opacity = 1 - f2*1.1;
+      l.el.style.transform = "translate(-50%,-50%) translate("+dx.toFixed(1)+"px,"+dy.toFixed(1)+"px) rotate("+(l.rot+flut+f2*160).toFixed(1)+"deg) scale("+bounce(lp).toFixed(3)+")";
+    });
+    // act 3 foliage
+    leaves2.forEach(function(l){
+      var lp = seg01(S.foliage2, l.order*0.55, 0.4);
+      var flut = Math.sin(time*1.1 + l.ph)*3.2*S.sway;
+      l.el.style.transform = "translate(-50%,-50%) rotate("+(l.rot+flut).toFixed(1)+"deg) scale("+bounce(lp).toFixed(3)+")";
+    });
+
+    // chips: act 2 in, out with the shed; act 3 in
+    tags1.forEach(function(t){
+      var tp = seg01(S.tags1, t.order*0.6, 0.35);
+      var out = 1 - S.fall2;
+      t.ln.style.strokeDashoffset = t.len*(1-Math.min(tp*1.4,1));
+      t.ln.style.opacity = 0.85*out*Math.min(tp*2,1);
+      var bob = Math.sin(time*0.7 + t.ph)*2*S.sway;
+      t.el.style.transform = "translate(-50%,-50%) translateY("+bob.toFixed(1)+"px) scale("+(bounce(seg01(tp,0.55,0.45))*out).toFixed(3)+")";
+    });
+    tags2.forEach(function(t){
+      var tp = seg01(S.tags2, t.order*0.6, 0.35);
+      t.ln.style.strokeDashoffset = t.len*(1-Math.min(tp*1.4,1));
+      t.ln.style.opacity = 0.85*Math.min(tp*2,1);
+      var bob = Math.sin(time*0.7 + t.ph)*2*S.sway;
+      t.el.style.transform = "translate(-50%,-50%) translateY("+bob.toFixed(1)+"px) scale("+bounce(seg01(tp,0.55,0.45)).toFixed(3)+")";
+    });
+
+    // flank labels: startup wording first, company wording once the tree stands
+    document.getElementById("brainlabel").style.opacity = S.labels;
+    document.getElementById("complabel").style.opacity = S.labels;
+    document.querySelectorAll(".lset.la").forEach(function(el){ el.style.opacity = 1-S.labelSwap; });
+    document.querySelectorAll(".lset.lb").forEach(function(el){ el.style.opacity = S.labelSwap; });
+
+    // the plant breathes
+    var lean = Math.sin(time*0.5)*0.7*S.sway + mouseX*1.6*S.sway;
+    tree.style.transformOrigin = ROOT.x+"% "+ROOT.y+"%";
+    tree.style.transform = "rotate("+lean.toFixed(2)+"deg)";
+
+    var hl = document.getElementById("headline");
+    hl.style.opacity = S.headline;
+    hl.style.transform = "translateY("+(14*(1-S.headline))+"px)";
+  }
+  gsap.ticker.add(function(t){ clock.t=t; draw(); });
+
+  build();
+  window.addEventListener("resize", build);
+
+  /* ============ the narrator types every line ============ */
+  function typeLine(el, text){
+    el.textContent = "";
+    el.style.opacity = 1;
+    var i=0;
+    var cur = document.createElement("span"); cur.className="cursor";
+    el.appendChild(cur);
+    (function step(){
+      if(i>=text.length){ cur.remove(); return; }
+      cur.insertAdjacentText("beforebegin", text.charAt(i)); i++;
+      setTimeout(step, 50);
+    })();
+  }
+  (function typeIdea(){
+    var line1 = document.getElementById("line1");
+    if(reduced){ line1.textContent = FGT.line1; return; }
+    typeLine(line1, FGT.line1);
+  })();
+  if(!reduced){
+    gsap.to(S,{stemBirth:1, duration:1, ease:"power1.out", delay:.3});
+    gsap.to(iLeafL,{opacity:1, duration:.2, delay:1.1});
+    gsap.fromTo(iLeafL,{scale:0.04, rotation:9},{scale:1, rotation:0, duration:1.1, ease:"back.out(1.4)", delay:1.1});
+    gsap.to(iLeafR,{opacity:1, duration:.2, delay:1.44});
+    gsap.fromTo(iLeafR,{scale:0.04, rotation:-9},{scale:1, rotation:0, duration:1.1, ease:"back.out(1.4)", delay:1.44,
+      onComplete:function(){ sproutBloomed = true; gsap.set([iLeafL,iLeafR],{clearProps:"transform"}); }});
+    window.__cap1In = gsap.to("#cap1",{opacity:1, duration:.6, delay:2.2});
+  } else {
+    S.stemBirth = 1;
+    iLeafL.style.opacity = 1;
+    iLeafR.style.opacity = 1;
+    document.getElementById("cap1").style.opacity = 1;
+    sproutBloomed = true;
+  }
+
+  /* ============ the three acts, on scroll ============ */
+  if(reduced){
+    S.fall=1; S.trunk=1; S.crown=1; S.foliage=0; S.tags1=0; S.labels=1;
+    S.fall2=1; S.trunkExt=1; S.crown2=1; S.foliage2=1; S.tags2=1;
+    S.labelSwap=1; S.sway=1; S.headline=1;
+    document.getElementById("line1").style.opacity=0;
+    document.getElementById("line3").style.opacity=1;
+    document.getElementById("cap1").style.opacity=0;
+    document.getElementById("cap3").style.opacity=1;
+    draw();
+  } else {
+    /* three beats: the sprout plays at load; one scroll plays the bush;
+       one more scroll plays the tree. each beat holds the page while it performs. */
+    function lockScroll(){ document.documentElement.style.overflow = "hidden"; }
+    function unlockScroll(){ document.documentElement.style.overflow = ""; }
+    var hint = document.getElementById("hint");
+
+    var tl2 = gsap.timeline({paused:true, onComplete:function(){
+      unlockScroll();
+      gsap.to(hint,{opacity:1, duration:.4});
+    }});
+    tl2.call(function(){ if(window.__cap1In) window.__cap1In.kill(); }, null, 0)
+       .to("#line1",{opacity:0, duration:.3, overwrite:"auto"}, 0)
+       .to("#cap1",{opacity:0, duration:.3, overwrite:"auto"}, 0)
+       .to(S,{fall:1, duration:.6, ease:"power1.in"}, .1)
+       .call(function(){ typeLine(document.getElementById("line2"), FGT.line2); }, null, .45)
+       .to("#cap2",{opacity:1, duration:.4}, .8)
+       .to(S,{trunk:1, duration:.9, ease:"power1.inOut"}, .5)
+       .to(S,{crown:1, duration:1.3, ease:"none"}, 1.2)
+       .to(S,{foliage:1, duration:1.3, ease:"none"}, 1.9)
+       .to(S,{tags1:1, duration:1.0, ease:"none"}, 2.8)
+       .to(S,{labels:1, duration:.5}, 3.5)
+       .to(S,{sway:.6, duration:.6}, 3.6);
+
+    var tl3 = gsap.timeline({paused:true, onComplete:unlockScroll});
+    tl3.to("#line2",{opacity:0, duration:.3, overwrite:"auto"}, 0)
+       .to("#cap2",{opacity:0, duration:.3, overwrite:"auto"}, 0)
+       .to("#cap1",{opacity:0, duration:.2, overwrite:"auto"}, 0)
+       .to(S,{fall2:1, duration:.9, ease:"power1.in"}, .05)
+       .call(function(){ typeLine(document.getElementById("line3"), FGT.line3); }, null, .5)
+       .to("#cap3",{opacity:1, duration:.4}, .85)
+       .to(S,{labelSwap:1, duration:.7}, 1.2)
+       .to(S,{trunkExt:1, duration:.8, ease:"power1.inOut"}, .8)
+       .to(S,{crown2:1, duration:1.3, ease:"none"}, 1.4)
+       .to(S,{foliage2:1, duration:1.3, ease:"none"}, 2.1)
+       .to(S,{tags2:1, duration:1.0, ease:"none"}, 3.0)
+       .to(S,{sway:1, duration:.6}, 3.7)
+       .to("#line3",{opacity:0, y:-26, duration:1.0, ease:"power2.in"}, 4.0)
+       .to(S,{headline:1, duration:1.1, ease:"power2.out"}, 4.4);
+
+    var act2Played=false, act3Played=false;
+    ScrollTrigger.create({
+      trigger:"#scene-wrap", start:"top top", end:"+=120%", pin:true, anticipatePin:1,
+      onUpdate:function(self){
+        if(!act2Played && self.progress>0.02){
+          act2Played = true;
+          if(!sproutBloomed){ sproutBloomed = true; gsap.set([iLeafL,iLeafR],{clearProps:"transform",opacity:1}); }
+          gsap.to(hint,{opacity:0, duration:.2});
+          lockScroll();
+          tl2.play(0);
+        } else if(act2Played && !act3Played && tl2.progress()===1 && self.progress>0.3){
+          act3Played = true;
+          gsap.to(hint,{opacity:0, duration:.2});
+          lockScroll();
+          tl3.play(0);
+        }
+      }
+    });
+  }
+})();
+</script>
+<script>
+(function(){
+  "use strict";
+  var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var gate = !reduced && window.matchMedia("(min-width:861px)").matches;
+  var pageLocked = false;
+  function lockScroll(){ pageLocked = true; document.documentElement.style.overflow = "hidden"; }
+  function unlockScroll(){ pageLocked = false; document.documentElement.style.overflow = ""; }
+
+  /* reveals */
+  if(!reduced){
+    gsap.utils.toArray(".reveal-j").forEach(function(el){
+      gsap.to(el,{opacity:1, y:0, duration:.65, ease:"power2.out",
+        scrollTrigger:{trigger:el, start:"top 86%"}});
+    });
+  }
+
+  function typeInto(el, text, speed, done){
+    if(reduced){ el.textContent = text; if(done) done(); return; }
+    el.textContent = "";
+    var i=0, cur=document.createElement("span"); cur.className="cursor2";
+    el.appendChild(cur);
+    (function step(){
+      if(i>=text.length){ cur.remove(); if(done) done(); return; }
+      cur.insertAdjacentText("beforebegin", text.charAt(i)); i++;
+      setTimeout(step, speed);
+    })();
+  }
+  function streamInto(el, html, wordDelay, done){
+    if(reduced){ el.innerHTML = html; if(done) done(); return; }
+    var tokens = html.match(/<[^>]+>|[^<\s]+\s*|\s+/g) || [];
+    var idx=0, built="", cur=document.createElement("span");
+    el.appendChild(cur);
+    var cursor=document.createElement("span"); cursor.className="cursor2";
+    el.appendChild(cursor);
+    (function step(){
+      if(idx>=tokens.length){ cursor.remove(); if(done) done(); return; }
+      built += tokens[idx];
+      cur.innerHTML = built;
+      el.appendChild(cursor);
+      var tk = tokens[idx]; idx++;
+      setTimeout(step, tk.charAt(0)==="<" ? 0 : wordDelay);
+    })();
+  }
+
+  /* the mentor conversation: settle, hold, perform, release */
+  var mQ = FGT.mQ;
+  var mA = FGT.mA;
+  var mPlayed = false;
+  ScrollTrigger.create({
+    trigger:"#mchat", start: gate ? "top 55%" : "top 70%", once:true,
+    onEnter:function(){
+      if(mPlayed) return; mPlayed = true;
+      var run = function(){
+        var you = document.querySelector("#m2you .you-text");
+        gsap.to("#m2you",{opacity:1,duration:.3});
+        typeInto(you, mQ, 24, function(){
+          setTimeout(function(){
+            gsap.to("#m2comp",{opacity:1,duration:.3});
+            streamInto(document.querySelector("#m2comp .comp-text"), mA, 30, function(){
+              gsap.to("#m2actions",{opacity:1,duration:.5,delay:.2});
+              if(gate) unlockScroll();
+            });
+          }, 380);
+        });
+      };
+      if(gate){
+        lockScroll();
+        gsap.to(window,{duration:.45, ease:"power2.out", overwrite:true,
+          scrollTo:{y:document.getElementById("mentor"), autoKill:false}, onComplete:run});
+      } else { run(); }
+    }
+  });
+
+  /* the studio: the elevator pitch types itself */
+  var sPlayed=false;
+  ScrollTrigger.create({
+    trigger:"#studio", start:"top 60%", once:true,
+    onEnter:function(){
+      if(sPlayed) return; sPlayed=true;
+      typeInto(document.getElementById("s-elevator"),
+        'FGT.elevator', 20);
+    }
+  });
+
+  /* the raise: meter fills, the Auditor strikes */
+  var rPlayed=false;
+  ScrollTrigger.create({
+    trigger:"#raise", start:"top 55%", once:true,
+    onEnter:function(){
+      if(rPlayed) return; rPlayed=true;
+      var run = function(){
+        var tl = gsap.timeline({onComplete:function(){ if(gate) unlockScroll(); }});
+        tl.to("#droom",{width:"84%", duration:1.1, ease:"power2.out"}, .2)
+          .to("#j-stamp",{scale:1, rotation:-7, duration:.45, ease:"back.out(2.5)"}, 1.2)
+          .to("#j-good",{opacity:1, duration:.4}, 2.0)
+          .to("#j-stamp",{opacity:0, duration:.3}, 2.6)
+          .to("#j-stamp2",{opacity:1, duration:.3}, 2.65);
+      };
+      if(gate){
+        lockScroll();
+        gsap.to(window,{duration:.45, ease:"power2.out", overwrite:true,
+          scrollTo:{y:document.getElementById("raise"), autoKill:false}, onComplete:run});
+      } else { run(); }
+    }
+  });
+  if(reduced){
+    document.getElementById("droom").style.width = "84%";
+    document.getElementById("j-good").style.opacity = 1;
+    document.getElementById("j-stamp").style.opacity = 0;
+    document.getElementById("j-stamp2").style.opacity = 1;
+    var y2 = document.querySelector("#m2you .you-text"); if(y2) y2.textContent = mQ;
+    var c2 = document.querySelector("#m2comp .comp-text"); if(c2) c2.innerHTML = mA;
+  }
+
+  /* the founder's day: settle, then the brief performs */
+  var fPlayed=false;
+  ScrollTrigger.create({
+    trigger:"#fbrief", start: gate ? "top 55%" : "top 70%", once:true,
+    onEnter:function(){
+      if(fPlayed) return; fPlayed=true;
+      var run = function(){
+        var tl = gsap.timeline({onComplete:function(){ if(gate) unlockScroll(); }});
+        document.querySelectorAll("#fbrief .jb-line").forEach(function(l,i){
+          tl.to(l,{opacity:1,y:0,duration:.55,ease:"power2.out"}, i*.8);
+        });
+        document.querySelectorAll("#fbrief .jb-slot").forEach(function(s,i){
+          tl.to(s,{opacity:1,duration:.4}, 2.4 + i*.35);
+        });
+        tl.to("#fbrief-actions",{opacity:1,duration:.5}, 3.7);
+      };
+      if(gate){
+        lockScroll();
+        gsap.to(window,{duration:.45, ease:"power2.out", overwrite:true,
+          scrollTo:{y:document.getElementById("proactive"), autoKill:false}, onComplete:run});
+      } else { run(); }
+    }
+  });
+  if(reduced){
+    document.querySelectorAll("#fbrief .jb-line, #fbrief .jb-slot").forEach(function(el){ el.style.opacity=1; el.style.transform="none"; });
+    var fa = document.getElementById("fbrief-actions"); if(fa) fa.style.opacity=1;
+  }
+
+  /* seat the pricing section on arrival, like the companies page */
+  if(gate){
+    ["#plans"].forEach(function(sel){
+      var el = document.querySelector(sel);
+      if(!el) return;
+      ScrollTrigger.create({
+        trigger:sel, start:"top 60%",
+        onEnter:function(){
+          if(pageLocked) return;
+          lockScroll();
+          gsap.to(window,{duration:.5, ease:"power2.out", overwrite:true,
+            scrollTo:{y:el, autoKill:false},
+            onComplete:function(){ gsap.delayedCall(0.35, unlockScroll); }
+          });
+        }
+      });
+    });
+  }
+})();
+</script>
+</body>
+</html>

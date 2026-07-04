@@ -330,7 +330,7 @@ function init(host){
   function openPlayer(i){
     var m=MODULES[i];
     var __vv=root.getElementById("vidvig");
-    if(m.demo){ __vv.innerHTML='<iframe class="vidfill" src="'+m.demo+'" title="'+m.name+' demo" allow="autoplay; fullscreen; encrypted-media" style="border:0;width:100%;height:100%"></iframe>'; }
+    if(m.demo){ var __du=m.demo+(m.demo.indexOf("?")<0?"?autoplay=1":"&autoplay=1"); __vv.innerHTML='<iframe class="vidfill" src="'+__du+'" title="'+m.name+' demo" allow="autoplay; fullscreen; encrypted-media" style="border:0;width:100%;height:100%"></iframe>'; }
     else { __vv.innerHTML=(m.video?'<video class="vidfill" src="'+m.video+'" autoplay controls playsinline></video>':m.vig()); }
     root.getElementById("vBadge").textContent=m.name+" — Firmgrove";
     player.classList.toggle("demo-mode", !!m.demo);

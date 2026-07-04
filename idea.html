@@ -90,6 +90,11 @@
   .btn:hover{background:var(--rose-deep);transform:translateY(-1px)}
   footer{padding:32px 24px;text-align:center;color:var(--slate);font-size:.82rem;background:var(--porcelain);border-top:1px solid var(--hairline)}
   footer a{color:var(--slate)}
+  .stepwrap{max-width:820px;margin:0 auto}
+  .shot{background:#fff;border:1px solid var(--hairline);border-radius:16px;overflow:hidden;box-shadow:0 18px 50px -30px rgba(23,27,37,.16);margin:16px auto 0}
+  .shot .sbar{display:flex;align-items:center;gap:9px;padding:9px 15px;border-bottom:1px solid var(--hairline);font-size:.7rem;color:var(--slate)}
+  .shot .sbar .fdot{width:7px;height:7px;border-radius:50%;background:var(--rose)}
+  .shot img{display:block;width:100%;height:auto}
 </style>
 </head>
 <body>
@@ -126,43 +131,28 @@
 </section>
 
 <section>
-  <div class="step">
-    <div class="frame">
-      <div class="framebar"><span class="fdot"></span>The idea · free · Real product, sample data</div>
-      <div class="framebody">
-        <p class="said">"Mesa is real-time yield management for the neighbourhood restaurant. It watches for tables about to go empty, and in one tap the restaurant pushes a time-boxed offer, 20% off if you are seated in the next 45 minutes, to a local pool of opted-in diners nearby."</p>
-        <div class="fields">
-          <div class="field"><b>What it does</b><span>Real-time yield management for the neighbourhood restaurant</span></div>
-          <div class="field"><b>Who it is for</b><span>Independent restaurants, 1-5 sites, in dense cities</span></div>
-          <div class="field"><b>The problem</b><span>No-shows and empty off-peak tables, revenue gone forever</span></div>
-          <div class="field"><b>Rough sector</b><span>Restaurant tech and hospitality</span></div>
-        </div>
-      </div>
-    </div>
-    <div class="stepfix">
+  <div class="stepwrap">
+    <div class="stepfix" style="max-width:820px">
       <div class="steptag">What you tell it</div>
       <h2>Four things. Described like you would to a friend.</h2>
       <p>No deck, no signup gauntlet, no form to dread. <b>Four things are enough to start:</b> what it does, who it is for, the problem it solves, and the rough sector. Below that floor it will not fire the research, it will just ask you to say a little more.</p>
       <p class="cap">The fourth field, the sector, is what lets the research aim, so the first pass does not waste time.</p>
     </div>
+    <div class="shot"><div class="sbar"><span class="fdot"></span>Real product · sample data</div><img src="idea-1.png" alt="Idea evaluation, the free intro screen"></div>
+    <div class="shot"><div class="sbar"><span class="fdot"></span>Real product · sample data</div><img src="idea-3.png" alt="Describing the idea: what it does, who it is for, and the problem"></div>
   </div>
 </section>
 
 <section>
-  <div class="step rev">
-    <div class="frame">
-      <div class="framebar"><span class="fdot"></span>The Companion · Real product, sample data</div>
-      <div class="framebody">
-        <div class="msg q"><div class="who">Companion</div>Let's start on the diner side, since the whole engine depends on it. Have you seen any signal that a real pool of local diners would opt in and actually show up on a 45-minute offer?</div>
-        <div class="msg q"><div class="who">Companion</div>Is that pain worth roughly 80 to 150 euros a month plus commission, versus their free Instagram-and-WhatsApp hacks? What tells you they will actually put money on it, not just nod that it is a nice idea?</div>
-      </div>
-    </div>
-    <div class="stepfix">
+  <div class="stepwrap">
+    <div class="stepfix" style="max-width:820px">
       <div class="steptag">The questions it asks back</div>
       <h2>The questions a veteran asks that your mum never would.</h2>
       <p>It interviews you only as far as it needs, then it goes and researches the rest. <b>The questions it asks back are the ones a biased panel skips:</b> who exactly signs, where the value actually lands, and whether you are the founder to build this.</p>
       <p class="cap">Market questions it answers itself from research. It only asks you what only you can answer.</p>
     </div>
+    <div class="shot"><div class="sbar"><span class="fdot"></span>Real product · sample data</div><img src="idea-4.png" alt="A sharp follow-up on diner demand, with the founder's answer"></div>
+    <div class="shot"><div class="sbar"><span class="fdot"></span>Real product · sample data</div><img src="idea-5.png" alt="A follow-up on willingness to pay, with the founder's answer"></div>
   </div>
 </section>
 
@@ -172,33 +162,11 @@
     <h2 style="font-size:clamp(1.4rem,2.8vw,2rem);font-weight:600;letter-spacing:-0.02em">The opportunity read, forwardable to an investor.</h2>
     <p style="color:var(--slate);margin-top:10px">A multi-dimensional read with the evidence under every score, and an honest recommendation at the end.</p>
   </div>
-  <div class="wrap" style="margin-top:26px">
-    <div class="frame">
-      <div class="framebar"><span class="fdot"></span>Opportunity read · Real product, sample data</div>
-      <div class="framebody">
-        <span class="badge b-strong" style="display:inline-block;margin-bottom:10px">promising</span>
-        <h3 style="font-family:var(--serif);font-weight:500;font-size:1.3rem;line-height:1.25;margin:0 0 10px">A sharp, well-reasoned idea with a genuine white space and a founder who understands the problem from both sides of the table</h3>
-        <p style="color:var(--slate);font-size:.95rem;margin:0 0 16px">Mesa applies a proven revenue management concept from airlines and hotels to a segment that has never had access to it: the independent urban restaurant. The core insight is strong and the analogy is tight.</p>
-        <div class="dims">
-          <div class="dim"><div class="dh"><span class="dn">Problem clarity</span><span class="badge b-strong">90</span></div></div>
-          <div class="dim"><div class="dh"><span class="dn">Target customer</span><span class="badge b-strong">87</span></div></div>
-          <div class="dim"><div class="dh"><span class="dn">Market size</span><span class="badge b-research">72</span></div></div>
-          <div class="dim"><div class="dh"><span class="dn">Competitive landscape</span><span class="badge b-research">78</span></div></div>
-          <div class="dim"><div class="dh"><span class="dn">Demand validation</span><span class="badge b-ask">Pending</span></div></div>
-          <div class="dim"><div class="dh"><span class="dn">Where value is created</span><span class="badge b-strong">85</span></div></div>
-          <div class="dim"><div class="dh"><span class="dn">Macro and regulatory</span><span class="badge b-flag">62</span></div></div>
-          <div class="dim"><div class="dh"><span class="dn">Buyer motivation</span><span class="badge b-strong">80</span></div></div>
-          <div class="dim"><div class="dh"><span class="dn">Founder-market fit</span><span class="badge b-research">78</span></div></div>
-        </div>
-      </div>
-    </div>
-    <div class="banner">
+  <div class="stepwrap" style="margin-top:22px">
+    <div class="shot"><div class="sbar"><span class="fdot"></span>Opportunity read · Real product, sample data</div><img src="idea-6.png" alt="Opportunity read: headline, verdict and the scored dimensions"></div>
+    <div class="shot"><div class="sbar"><span class="fdot"></span>Opportunity read · Real product, sample data</div><img src="idea-7.png" alt="What to strengthen and the recommendation"></div>
+    <div class="banner" style="margin-top:16px">
       <p><b>It is an evaluation, not a valuation.</b> It will never put a price on your idea. A pre-product idea has no defensible number, and a fake one is exactly what a real investor sees through. Money appears only as market context.</p>
-    </div>
-    <div class="nextbox">
-      <div class="nt">The riskiest assumption</div>
-      <h3>That enough nearby opted-in diners will actually show up within 45 minutes of a push.</h3>
-      <p>The cheap test: 50 to 100 opted-in diners on one Madrid street, a handful of real offers, measure the show-up rate. Bring the evidence back and the evaluation updates.</p>
     </div>
     <div style="text-align:center;margin-top:22px">
       <a class="btn" href="report.html">See the full opportunity read</a>
@@ -227,6 +195,7 @@
   var L=(q==='es'||q==='en')?q:((st==='es'||st==='en')?st:'en');
   localStorage.setItem('fg_lang',L); document.documentElement.lang=L;
   var ES={
+    "Real product · sample data":"Producto real · datos de ejemplo",
     "The idea · free · Real product, sample data":"La idea · gratis · Producto real, datos de ejemplo",
     "The Companion · Real product, sample data":"El compañero · Producto real, datos de ejemplo",
     "Opportunity read · Real product, sample data":"Informe de oportunidad · Producto real, datos de ejemplo",

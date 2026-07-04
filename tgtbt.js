@@ -182,6 +182,17 @@ function init(host){
     +'<rect x="156" y="248" width="118" height="54" rx="10" fill="#fff" stroke="'+HAIR+'"/><rect x="166" y="262" width="60" height="7" rx="3.5" fill="'+HAIR+'"/><rect x="166" y="278" width="64" height="9" rx="4.5" fill="'+ROSE+'" class="pulse" style="animation-delay:.6s"/>'
     +'</svg>'}
 
+  function vIdea(){return '<svg viewBox="0 0 300 340" preserveAspectRatio="xMidYMid slice">'
+    +'<rect width="300" height="340" fill="#FDFDFE"/>'
+    +'<rect x="26" y="30" width="90" height="10" rx="5" fill="'+HAIR+'"/>'
+    +'<g class="pulse"><circle cx="150" cy="118" r="46" fill="'+SOFT+'"/><circle cx="150" cy="118" r="26" fill="'+ROSE+'"/><path d="M150 96v20l13 9" stroke="#fff" stroke-width="5" stroke-linecap="round" fill="none"/></g>'
+    +'<rect x="132" y="170" width="36" height="10" rx="5" fill="'+DEEP+'"/>'
+    +'<rect x="88" y="194" width="124" height="26" rx="13" fill="'+SAGES+'"/><rect x="103" y="203" width="94" height="8" rx="4" fill="'+SAGE+'"/>'
+    +'<rect x="26" y="240" width="248" height="12" rx="6" fill="'+HAIR+'" opacity=".55"/><rect x="26" y="240" width="182" height="12" rx="6" fill="'+ROSE+'" class="pulse"/>'
+    +'<rect x="26" y="262" width="248" height="12" rx="6" fill="'+HAIR+'" opacity=".55"/><rect x="26" y="262" width="150" height="12" rx="6" fill="'+SAGE+'" class="pulse" style="animation-delay:.4s"/>'
+    +'<rect x="26" y="284" width="248" height="12" rx="6" fill="'+HAIR+'" opacity=".55"/><rect x="26" y="284" width="118" height="12" rx="6" fill="'+AMBER+'" class="pulse" style="animation-delay:.8s"/>'
+    +'</svg>'}
+
   var MODULES=[
     {key:"fundraise", name:"Fundraise",  line:"The raise, run end to end. Narrative, cap table, data room.", color:ROSE, video:"", vig:vFundraise},
     {key:"finance",   name:"Finance",    line:"A live three-statement model that always ties to the brain.",  color:SAGE, video:"", vig:vFinance},
@@ -192,6 +203,9 @@ function init(host){
     {key:"legal",     name:"Legal",      line:"Contracts read, clauses flagged, obligations tracked.",        color:AMBER, video:"", vig:vLegal},
     {key:"govern",    name:"Govern",     line:"Board packs and the audit trail, always diligence-ready.",     color:SAGE, video:"", vig:vGovern}
   ];
+  var __ideaDemo = host.getAttribute("data-idea-demo");
+  if(__ideaDemo){ MODULES.unshift({key:"idea", name:"Idea", line:"Your idea, pressure-tested. Fundability scan, honest read, next steps.", color:ROSE, video:"", vig:vIdea, demo:__ideaDemo}); }
+
 
   var stage=root.getElementById("stage");
   var cards=[], tags=[];
@@ -311,11 +325,13 @@ function init(host){
   var player=root.getElementById("player");
   function openPlayer(i){
     var m=MODULES[i];
-    root.getElementById("vidvig").innerHTML=(m.video?'<video class="vidfill" src="'+m.video+'" autoplay controls playsinline></video>':m.vig());
+    var __vv=root.getElementById("vidvig");
+    if(m.demo){ __vv.innerHTML='<iframe class="vidfill" src="'+m.demo+'" title="'+m.name+' demo" allow="autoplay; fullscreen; encrypted-media" style="border:0;width:100%;height:100%"></iframe>'; }
+    else { __vv.innerHTML=(m.video?'<video class="vidfill" src="'+m.video+'" autoplay controls playsinline></video>':m.vig()); }
     root.getElementById("vBadge").textContent=m.name+" — Firmgrove";
     player.classList.add("open");
   }
-  function closePlayer(){ player.classList.remove("open"); touch(); }
+  function closePlayer(){ player.classList.remove("open"); var __v=root.getElementById("vidvig"); if(__v) __v.innerHTML=""; touch(); }
   root.getElementById("vClose").addEventListener("click",closePlayer);
   player.addEventListener("click",function(e){ if(e.target===player) closePlayer(); });
   window.addEventListener("keydown",function(e){ if(e.key==="Escape") closePlayer(); });

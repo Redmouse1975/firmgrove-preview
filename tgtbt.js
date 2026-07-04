@@ -71,6 +71,8 @@ var CSS=`
   .screen{width:min(920px,92vw);aspect-ratio:16/9;background:var(--night);border-radius:18px;overflow:hidden;position:relative;box-shadow:0 60px 120px -40px rgba(0,0,0,.6);animation:pop .35s cubic-bezier(.3,1.4,.4,1)}
   @keyframes pop{from{transform:scale(.92);opacity:0}to{transform:scale(1);opacity:1}}
   .screen .vidvig{position:absolute;inset:0}
+  .player.demo-mode .chrome{display:none}
+  .screen .vidvig iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
   .screen .vidvig svg{width:100%;height:100%}
   .chrome{position:absolute;left:0;right:0;bottom:0;padding:14px 18px;display:flex;align-items:center;gap:14px;background:linear-gradient(180deg,transparent,rgba(10,12,18,.85))}
   .chrome .pp{width:34px;height:34px;border-radius:50%;background:var(--rose);display:flex;align-items:center;justify-content:center;flex:none;cursor:pointer}
@@ -329,6 +331,7 @@ function init(host){
     if(m.demo){ __vv.innerHTML='<iframe class="vidfill" src="'+m.demo+'" title="'+m.name+' demo" allow="autoplay; fullscreen; encrypted-media" style="border:0;width:100%;height:100%"></iframe>'; }
     else { __vv.innerHTML=(m.video?'<video class="vidfill" src="'+m.video+'" autoplay controls playsinline></video>':m.vig()); }
     root.getElementById("vBadge").textContent=m.name+" — Firmgrove";
+    player.classList.toggle("demo-mode", !!m.demo);
     player.classList.add("open");
   }
   function closePlayer(){ player.classList.remove("open"); var __v=root.getElementById("vidvig"); if(__v) __v.innerHTML=""; touch(); }

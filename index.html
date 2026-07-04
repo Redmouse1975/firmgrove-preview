@@ -61,6 +61,18 @@
   .seg .close p{color:var(--slate);font-size:.94rem;margin-top:6px;max-width:680px}
   footer{padding:34px 24px;text-align:center;color:#7A8294;font-size:.82rem;background:var(--night);border-top:1px solid rgba(255,255,255,.06)}
   footer a{color:#7A8294}
+  .proof-sec{padding:84px 24px;background:var(--surface);border-top:1px solid var(--hairline)}
+  .proof-wrap{max-width:1040px;margin:0 auto;text-align:center}
+  .proof-quote{font-family:var(--serif);font-style:italic;color:var(--rose);font-size:clamp(1.1rem,2.2vw,1.5rem)}
+  .proof-h{font-family:var(--serif);font-weight:500;font-size:clamp(1.5rem,3vw,2.1rem);letter-spacing:-0.01em;margin:10px 0 8px;color:var(--ink)}
+  .proof-lede{color:var(--slate);max-width:660px;margin:0 auto 30px;font-size:1rem}
+  .proof-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;text-align:left}
+  .proof-card{display:flex;flex-direction:column;background:var(--surface);border:1px solid var(--hairline);border-radius:16px;padding:20px;text-decoration:none;color:var(--ink);transition:transform .16s,box-shadow .16s,border-color .16s}
+  .proof-card:hover{transform:translateY(-3px);border-color:var(--rose-light);box-shadow:0 20px 46px -28px rgba(178,58,92,.4)}
+  .proof-tag{align-self:flex-start;font-size:.58rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--rose);background:rgba(178,58,92,.08);padding:3px 8px;border-radius:6px;margin-bottom:14px}
+  .proof-k{font-size:.68rem;text-transform:uppercase;letter-spacing:.12em;color:var(--slate);font-weight:600}
+  .proof-t{font-family:var(--serif);font-weight:500;font-size:1.12rem;margin:4px 0 16px;color:var(--ink)}
+  .proof-open{margin-top:auto;font-size:.85rem;font-weight:600;color:var(--rose)}
 </style>
 </head>
 <body>
@@ -132,6 +144,20 @@
   </div>
 </section>
 
+<section class="proof-sec">
+  <div class="proof-wrap">
+    <div class="proof-quote">"This sounds too good to be true."</div>
+    <h2 class="proof-h">Don't take our word for it. Open the work.</h2>
+    <p class="proof-lede">Real outputs the system produces, shown with sample data. Open any one and read it end to end.</p>
+    <div class="proof-grid">
+      <a class="proof-card" href="report.html"><span class="proof-tag">Sample data</span><div class="proof-k">Idea evaluation</div><div class="proof-t">A full opportunity read</div><span class="proof-open">Open it →</span></a>
+      <a class="proof-card" href="pitch-deck.html"><span class="proof-tag">Sample data</span><div class="proof-k">Studio</div><div class="proof-t">A pitch deck</div><span class="proof-open">Open it →</span></a>
+      <a class="proof-card" href="audited-quote.html"><span class="proof-tag">Sample data</span><div class="proof-k">The Auditor</div><div class="proof-t">An audited customer quote</div><span class="proof-open">Open it →</span></a>
+      <a class="proof-card" href="workflow.html"><span class="proof-tag">Sample data</span><div class="proof-k">Workflows</div><div class="proof-t">An automated workflow</div><span class="proof-open">Open it →</span></a>
+    </div>
+  </div>
+</section>
+
 <footer>Firmgrove &middot; The operating system that runs your company &middot; <a href="privacy.html">Privacy</a> &middot; Interface described with illustrative data.</footer>
 
 <script>
@@ -141,6 +167,30 @@
   var L=(q==='es'||q==='en')?q:((st==='es'||st==='en')?st:'en');
   localStorage.setItem('fg_lang',L); document.documentElement.lang=L;
   var ES={
+    "This sounds too good to be true.":"Esto suena demasiado bueno para ser verdad.",
+    "Don't take our word for it. Open the work.":"No te fíes de nuestra palabra. Abre el trabajo.",
+    "Real outputs the system produces, shown with sample data. Open any one and read it end to end.":"Salidas reales que produce el sistema, mostradas con datos de ejemplo. Abre cualquiera y léela de principio a fin.",
+    "Sample data":"Datos de ejemplo",
+    "Open it →":"Ábrelo →",
+    "Idea evaluation":"Evaluación de la idea",
+    "A full opportunity read":"Un informe de oportunidad completo",
+    "Studio":"Estudio",
+    "A pitch deck":"Un pitch deck",
+    "A business plan":"Un plan de negocio",
+    "Capital":"Capital",
+    "An investor update":"Una actualización a inversores",
+    "Finance":"Finanzas",
+    "A cap table":"Un cap table",
+    "The Auditor":"El Auditor",
+    "An audited customer quote":"Un presupuesto de cliente auditado",
+    "The Companion":"El compañero",
+    "A morning brief":"Un resumen matinal",
+    "Workflows":"Workflows",
+    "An automated workflow":"Un flujo automatizado",
+    "Marketing":"Marketing",
+    "A campaign brief":"Un brief de campaña",
+    "Financial statements":"Estados financieros",
+
     "The operating system that runs your company.":"El sistema operativo que dirige tu empresa.",
     "One brain. One companion. No tool to learn. You talk, Firmgrove runs the groundwork, from fundraising and finance to marketing, sales and operations.":"Un cerebro. Un compañero. Nada que aprender. Tú hablas y Firmgrove hace el trabajo de base, desde la financiación y las finanzas hasta el marketing, las ventas y las operaciones.",
     "Build a startup":"Crea una startup",

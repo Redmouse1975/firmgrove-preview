@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Firmgrove · The idea. An honest read before you spend a euro.</title>
+<meta name="description" content="Firmgrove evaluates your startup idea the way an investor would, for free. Four things to start, sharper questions back, a multi-dimensional report, and the one test to run next. It never puts a price on your idea.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400;1,6..72,500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --porcelain:#F2F3F6;--surface:#FFFFFF;--ink:#171B25;--slate:#5C6473;--hairline:#E2E5EB;
+    --rose:#B23A5C;--rose-light:#E58CA6;--rose-deep:#8F2C49;--sage:#3E7C5B;--night:#12151D;--stemgray:#7A8294;
+    --sans:'Sora',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;--serif:'Newsreader',Georgia,serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--porcelain);font-family:var(--sans);color:var(--ink);-webkit-font-smoothing:antialiased;line-height:1.5}
+  #topnav{position:fixed;top:0;left:0;right:0;z-index:60;padding:12px 24px;background:rgba(18,21,29,.96);backdrop-filter:blur(8px);border-bottom:1px solid rgba(226,229,235,.12)}
+  #topnav .inner{max-width:1040px;margin:0 auto;display:flex;align-items:center;justify-content:space-between}
+  #topnav .brand{display:inline-flex;align-items:center;font-weight:700;font-size:18px;color:#fff;letter-spacing:-0.01em;text-decoration:none}
+  #topnav .brand svg{width:22px;height:22px;display:block;margin-right:4px}
+  #topnav .brand .dot{display:inline-block;width:5px;height:5px;border-radius:50%;background:var(--rose);margin-left:3px;align-self:flex-end;margin-bottom:4px;font-size:0;color:transparent;overflow:hidden}
+  #topnav .right{display:flex;align-items:center;gap:20px}
+  #topnav .right a{font-size:14px;color:#A9B1C0;text-decoration:none}
+  #topnav .right a:hover{color:#fff}
+  #topnav .lang{display:inline-flex;gap:6px}
+  #topnav .lang button{background:transparent;border:0;color:var(--rose-light);font-family:var(--sans);font-size:12px;padding:2px 4px;cursor:pointer;opacity:.55}
+  #topnav .lang button[aria-pressed="true"]{opacity:1;font-weight:700}
+  @media(max-width:640px){#topnav .right a{display:none}}
+  .wrap{max-width:1040px;margin:0 auto;padding:0 24px}
+  .hero{padding:150px 24px 40px;text-align:center}
+  .eyebrow{display:inline-block;font-size:.72rem;text-transform:uppercase;letter-spacing:.18em;color:var(--rose);font-weight:600;margin-bottom:14px}
+  .hero h1{font-family:var(--serif);font-weight:500;font-size:clamp(1.9rem,4.4vw,3rem);line-height:1.1;letter-spacing:-0.01em;max-width:820px;margin:0 auto}
+  .hero .subline{font-family:var(--serif);font-style:italic;color:var(--slate);font-size:clamp(1.02rem,2vw,1.22rem);margin-top:16px}
+  section{padding:52px 24px}
+  .quote-block{max-width:1040px;margin:0 auto;padding:24px 30px;background:linear-gradient(135deg, rgba(178,58,92,.09), rgba(229,140,166,.05));border:1px solid rgba(178,58,92,.16);border-radius:18px}
+  .quote{font-family:var(--serif);font-style:italic;font-size:clamp(1.2rem,2.4vw,1.6rem);color:var(--ink);max-width:860px;padding-left:22px;border-left:3px solid var(--rose);line-height:1.4}
+  .quote-who{color:var(--rose);font-size:.9rem;padding-left:25px;font-weight:600;margin-top:10px}
+  .step{max-width:1040px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:44px;align-items:center}
+  @media(max-width:860px){.step{grid-template-columns:1fr;gap:26px}.step.rev .stepfix{order:2}.step.rev .frame{order:1}}
+  .step.rev .stepfix{order:1}
+  .steptag{font-size:.68rem;text-transform:uppercase;letter-spacing:.16em;color:var(--rose);font-weight:600;margin-bottom:10px}
+  .stepfix h2{font-size:clamp(1.35rem,2.6vw,1.9rem);font-weight:600;letter-spacing:-0.02em;margin-bottom:12px}
+  .stepfix p{color:var(--slate);font-size:1rem}
+  .stepfix p b{color:var(--ink);font-weight:600}
+  .cap{color:var(--slate);font-size:.9rem;margin-top:14px}
+  .cap b{color:var(--ink)}
+  .frame{background:#fff;border:1px solid var(--hairline);border-radius:16px;overflow:hidden;box-shadow:0 18px 50px -30px rgba(23,27,37,.16)}
+  .framebar{display:flex;align-items:center;gap:10px;padding:12px 18px;border-bottom:1px solid var(--hairline);font-size:.76rem;color:var(--slate)}
+  .framebar .fdot{width:8px;height:8px;border-radius:50%;background:var(--rose)}
+  .framebody{padding:20px}
+  .said{font-family:var(--serif);font-style:italic;font-size:.98rem;color:var(--ink);padding:12px 16px;background:#fff;border:1px solid var(--hairline);border-radius:10px;margin-bottom:14px}
+  .fields{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .field{background:#fff;border:1px solid var(--hairline);border-radius:10px;padding:11px 13px}
+  .field b{display:block;font-size:.7rem;text-transform:uppercase;letter-spacing:.1em;color:var(--rose);margin-bottom:3px}
+  .field span{font-size:.84rem;color:var(--ink)}
+  .msg{padding:12px 16px;border-radius:14px;font-size:.9rem;margin-bottom:10px}
+  .msg .who{font-size:.64rem;text-transform:uppercase;letter-spacing:.13em;font-weight:700;margin-bottom:6px;color:var(--rose)}
+  .msg.q{background:#fff;border:1px solid var(--hairline);border-left:3px solid var(--rose)}
+  .msg.q .who{color:var(--rose)}
+  .dims{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  @media(max-width:560px){.dims{grid-template-columns:1fr}.fields{grid-template-columns:1fr}}
+  .dim{background:#fff;border:1px solid var(--hairline);border-radius:10px;padding:12px 14px}
+  .dim .dh{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:4px}
+  .dim .dn{font-size:.86rem;font-weight:600;color:var(--ink)}
+  .dim .ev{font-size:.78rem;color:var(--slate);line-height:1.45}
+  .badge{font-size:.62rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:3px 8px;border-radius:6px;white-space:nowrap}
+  .b-strong{color:var(--sage);background:rgba(62,124,91,.12)}
+  .b-research{color:#185FA5;background:rgba(24,95,165,.12)}
+  .b-ask{color:var(--rose);background:rgba(178,58,92,.1)}
+  .b-flag{color:var(--rose-deep);background:rgba(143,44,73,.12)}
+  .banner{max-width:1040px;margin:24px auto 0;padding:18px 22px;border:1px solid var(--hairline);border-left:3px solid var(--sage);border-radius:12px;background:#fff}
+  .banner b{color:var(--ink)}
+  .banner p{color:var(--slate);font-size:.95rem}
+  .gap{font-size:.9rem;color:var(--slate);padding:10px 0;border-top:1px solid var(--hairline)}
+  .gap b{color:var(--rose);font-weight:600}
+  .gaps{max-width:1040px;margin:14px auto 0}
+  .nextbox{max-width:1040px;margin:20px auto 0;padding:20px 24px;border-radius:14px;background:var(--night);color:#EDEFF4}
+  .nextbox .nt{font-size:.68rem;text-transform:uppercase;letter-spacing:.16em;color:var(--rose-light);font-weight:600;margin-bottom:8px}
+  .nextbox h3{font-family:var(--serif);font-weight:500;font-size:1.25rem;margin-bottom:6px}
+  .nextbox p{color:#A9B1C0;font-size:.95rem}
+  .honesty{background:var(--surface);border-top:1px solid var(--hairline);text-align:center;padding:70px 24px}
+  .honesty h2{font-family:var(--serif);font-weight:500;font-size:clamp(1.4rem,3vw,2rem);margin-bottom:12px}
+  .honesty p{color:var(--slate);max-width:680px;margin:0 auto;font-size:1rem;line-height:1.65}
+  .cta-final{background:var(--porcelain);border-top:1px solid var(--hairline);text-align:center;padding:80px 24px}
+  .cta-final h2{font-family:var(--serif);font-weight:500;font-size:clamp(1.6rem,3.4vw,2.3rem);margin-bottom:12px}
+  .cta-final p{color:var(--slate);margin-bottom:28px}
+  .btn{display:inline-block;padding:14px 30px;border-radius:11px;font-size:.95rem;font-weight:600;background:var(--rose);color:#fff;text-decoration:none;transition:background .15s, transform .15s}
+  .btn:hover{background:var(--rose-deep);transform:translateY(-1px)}
+  footer{padding:32px 24px;text-align:center;color:var(--slate);font-size:.82rem;background:var(--porcelain);border-top:1px solid var(--hairline)}
+  footer a{color:var(--slate)}
+</style>
+</head>
+<body>
+<nav id="topnav"><div class="inner">
+  <a class="brand" href="index.html">
+    <svg viewBox="6 5 44 44" fill="none" aria-hidden="true">
+      <defs>
+        <linearGradient id="nT" gradientUnits="userSpaceOnUse" x1="25" y1="7" x2="44" y2="27"><stop offset="0" stop-color="#E58CA6"/><stop offset="1" stop-color="#B23A5C"/></linearGradient>
+        <linearGradient id="nB" gradientUnits="userSpaceOnUse" x1="12" y1="31" x2="30" y2="11"><stop offset="0" stop-color="#8F2C49"/><stop offset="1" stop-color="#B23A5C"/></linearGradient>
+      </defs>
+      <path d="M28 47 V25" stroke="#7A8294" stroke-width="2.4" stroke-linecap="round"/>
+      <path d="M28 31 C15 31 12 18 14.5 11 C24 11 30.5 19 28 31 Z" fill="url(#nB)"/>
+      <path d="M28 27 C41 27 44 14 41.5 7 C32 7 25.5 15 28 27 Z" fill="url(#nT)"/>
+    </svg>Firmgrove<span class="dot">.</span>
+  </a>
+  <div class="right">
+    <a href="startups.html">Startups</a>
+    <a href="companies.html">Companies</a>
+    <span class="lang"><button data-lang-btn="en" aria-pressed="true">EN</button><button data-lang-btn="es" aria-pressed="false">ES</button></span>
+  </div>
+</div></nav>
+
+<div class="hero">
+  <span class="eyebrow">For startups · The idea</span>
+  <h1>Before you spend a euro, an honest read of your idea.</h1>
+  <p class="subline">Free. Guided by the Companion. It ends on what to do next, not a gold star.</p>
+</div>
+
+<section>
+  <div class="quote-block">
+    <p class="quote">"I think I have a really great idea. My friends and my mum tell me it is great. Should I actually pursue it?"</p>
+    <p class="quote-who">Your friends and your mum are a biased panel</p>
+  </div>
+</section>
+
+<section>
+  <div class="step">
+    <div class="frame">
+      <div class="framebar"><span class="fdot"></span>The idea · free · Illustrative data</div>
+      <div class="framebody">
+        <p class="said">"Subscription pallet-level tracking for mid-size food distributors. Hardware plus a monthly fee."</p>
+        <div class="fields">
+          <div class="field"><b>What it does</b><span>Tracks pallets in real time, hardware plus subscription</span></div>
+          <div class="field"><b>Who it is for</b><span>Mid-size food distributors</span></div>
+          <div class="field"><b>The problem</b><span>Spoilage and lost pallets nobody can locate</span></div>
+          <div class="field"><b>Rough sector</b><span>Logistics and food supply chain</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="stepfix">
+      <div class="steptag">What you tell it</div>
+      <h2>Four things. Described like you would to a friend.</h2>
+      <p>No deck, no signup gauntlet, no form to dread. <b>Four things are enough to start:</b> what it does, who it is for, the problem it solves, and the rough sector. Below that floor it will not fire the research, it will just ask you to say a little more.</p>
+      <p class="cap">The fourth field, the sector, is what lets the research aim, so the first pass does not waste time.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="step rev">
+    <div class="frame">
+      <div class="framebar"><span class="fdot"></span>The Companion · Illustrative data</div>
+      <div class="framebody">
+        <div class="msg q"><div class="who">Companion</div>When you say mid-size distributors, is the buyer the operations lead or the owner? They sign for very different reasons.</div>
+        <div class="msg q"><div class="who">Companion</div>Where is the value really created: the spoilage you prevent, or the hours your staff stop spending hunting for pallets?</div>
+        <div class="msg q"><div class="who">Companion</div>What in your background makes you the right person to sell hardware into this industry?</div>
+      </div>
+    </div>
+    <div class="stepfix">
+      <div class="steptag">The questions it asks back</div>
+      <h2>The questions a veteran asks that your mum never would.</h2>
+      <p>It interviews you only as far as it needs, then it goes and researches the rest. <b>The questions it asks back are the ones a biased panel skips:</b> who exactly signs, where the value actually lands, and whether you are the founder to build this.</p>
+      <p class="cap">Market questions it answers itself from research. It only asks you what only you can answer.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap" style="text-align:center;max-width:760px">
+    <div class="steptag" style="text-align:center">The report</div>
+    <h2 style="font-size:clamp(1.4rem,2.8vw,2rem);font-weight:600;letter-spacing:-0.02em">A multi-dimensional read, with the evidence under every score.</h2>
+    <p style="color:var(--slate);margin-top:10px">Forwardable to an investor. Market dimensions render from research, the ones that need you show as questions until answered.</p>
+  </div>
+  <div class="wrap" style="margin-top:26px">
+    <div class="dims">
+      <div class="dim"><div class="dh"><span class="dn">Problem clarity</span><span class="badge b-strong">Strong</span></div><div class="ev">Clear job, clear pain. Spoilage and lost pallets are quantifiable.</div></div>
+      <div class="dim"><div class="dh"><span class="dn">Market size</span><span class="badge b-research">From research</span></div><div class="ev">Mid-size EU food distribution, sized as market context, never a price on the idea.</div></div>
+      <div class="dim"><div class="dh"><span class="dn">Competition and white space</span><span class="badge b-research">From research</span></div><div class="ev">Two incumbents own the enterprise tier. The mid-size segment is open.</div></div>
+      <div class="dim"><div class="dh"><span class="dn">Target customer</span><span class="badge b-ask">Needs you</span></div><div class="ev">Operations lead or owner? The answer changes the whole pitch.</div></div>
+      <div class="dim"><div class="dh"><span class="dn">Demand validation</span><span class="badge b-ask">To test</span></div><div class="ev">No evidence yet that distributors will pay a subscription for hardware.</div></div>
+      <div class="dim"><div class="dh"><span class="dn">Founder-market fit</span><span class="badge b-strong">Strong</span></div><div class="ev">Eight years inside logistics operations. You know the buyer.</div></div>
+      <div class="dim"><div class="dh"><span class="dn">Macro and regulatory</span><span class="badge b-flag">One flag</span></div><div class="ev">Device data touches GDPR. Manageable, worth planning for early.</div></div>
+      <div class="dim"><div class="dh"><span class="dn">Comparable funding</span><span class="badge b-research">Context only</span></div><div class="ev">Ranges raised by similar seed companies, shown as context, not a valuation.</div></div>
+    </div>
+    <div class="banner">
+      <p><b>It is an evaluation, not a valuation.</b> It will never put a price on your idea. A pre-product idea has no defensible number, and a fake one is exactly what a real investor sees through. Money appears only as market context.</p>
+    </div>
+    <div class="gaps">
+      <div class="gap"><b>Gap.</b> No cost-of-hardware model yet. It points you to the Studio, where the business plan and the model get drafted with you.</div>
+      <div class="gap"><b>Gap.</b> No distribution insight. It points to the GTM plan, starting with twelve distributor interviews.</div>
+      <div class="gap"><b>Gap.</b> Positioning is wide. It points to Brand and positioning to narrow you to the mid-size wedge.</div>
+    </div>
+    <div class="nextbox">
+      <div class="nt">The one thing to do next</div>
+      <h3>Your riskiest assumption: that distributors will pay a subscription for hardware.</h3>
+      <p>Framed as a test you can run this week: ten discovery calls, a mock price, and a yes-or-no on a pilot. Bring the evidence back and the evaluation updates. It is a loop, not a verdict.</p>
+    </div>
+    <p class="cap" style="text-align:center;max-width:760px;margin:16px auto 0">Every claim in the report is checked by the Auditor before it reaches you.</p>
+  </div>
+</section>
+
+<div class="honesty">
+  <h2>What the evaluation does not do.</h2>
+  <p>It will not tell you your idea is brilliant to make you feel good, and it will not put a number on it. It shows you what an investor would see, and the cheapest next test to remove the biggest risk. The read is free, and it is yours to forward.</p>
+</div>
+
+<div class="cta-final">
+  <h2>Stop asking your mum. Get the honest read.</h2>
+  <p>Free. Four things to start. The report ends on your next move.</p>
+  <a class="btn" href="mailto:founders@firmgrove.com?subject=Free%20idea%20evaluation">Run the free evaluation</a>
+</div>
+
+<footer>Firmgrove &middot; The AI operating system that runs your startup &middot; <a href="startups.html">For startups</a> &middot; <a href="companies.html">For companies</a> &middot; <a href="privacy.html">Privacy</a> &middot; Interface described with illustrative data.</footer>
+
+<script>
+(function(){
+  var p=new URLSearchParams(location.search); var q=p.get('lang');
+  var st=localStorage.getItem('fg_lang');
+  var L=(q==='es'||q==='en')?q:((st==='es'||st==='en')?st:'en');
+  localStorage.setItem('fg_lang',L); document.documentElement.lang=L;
+  var ES={
+    "The idea · free · Illustrative data":"La idea · gratis · Datos ilustrativos",
+    "The Companion · Illustrative data":"El compañero · Datos ilustrativos",
+    "For startups · The idea":"Para startups · La idea",
+    "Before you spend a euro, an honest read of your idea.":"Antes de gastar un euro, una lectura honesta de tu idea.",
+    "Free. Guided by the Companion. It ends on what to do next, not a gold star.":"Gratis. Guiada por el compañero. Termina en qué hacer a continuación, no en una medalla.",
+    "\"I think I have a really great idea. My friends and my mum tell me it is great. Should I actually pursue it?\"":"«Creo que tengo una idea buenísima. Mis amigos y mi madre me dicen que es genial. ¿De verdad debería lanzarme con ella?»",
+    "Your friends and your mum are a biased panel":"Tus amigos y tu madre son un jurado con sesgo",
+    "\"Subscription pallet-level tracking for mid-size food distributors. Hardware plus a monthly fee.\"":"«Seguimiento de palets por suscripción para distribuidores de alimentación medianos. Hardware más una cuota mensual.»",
+    "What it does":"Qué hace",
+    "Tracks pallets in real time, hardware plus subscription":"Rastrea palets en tiempo real, hardware más suscripción",
+    "Who it is for":"Para quién es",
+    "Mid-size food distributors":"Distribuidores de alimentación medianos",
+    "The problem":"El problema",
+    "Spoilage and lost pallets nobody can locate":"Mermas y palets perdidos que nadie logra localizar",
+    "Rough sector":"Sector aproximado",
+    "Logistics and food supply chain":"Logística y cadena de suministro alimentario",
+    "What you tell it":"Lo que le cuentas",
+    "Four things. Described like you would to a friend.":"Cuatro cosas. Contadas como se las contarías a un amigo.",
+    "No deck, no signup gauntlet, no form to dread. <b>Four things are enough to start:</b> what it does, who it is for, the problem it solves, and the rough sector. Below that floor it will not fire the research, it will just ask you to say a little more.":"Sin deck, sin registro interminable, sin formulario que dé pereza. <b>Bastan cuatro cosas para empezar:</b> qué hace, para quién es, qué problema resuelve y el sector aproximado. Por debajo de ese mínimo no lanza la investigación, solo te pide que cuentes un poco más.",
+    "The fourth field, the sector, is what lets the research aim, so the first pass does not waste time.":"El cuarto campo, el sector, es lo que permite apuntar la investigación, para que la primera pasada no pierda el tiempo.",
+    "When you say mid-size distributors, is the buyer the operations lead or the owner? They sign for very different reasons.":"Cuando dices distribuidores medianos, ¿quién compra, el responsable de operaciones o el dueño? Firman por motivos muy distintos.",
+    "Where is the value really created: the spoilage you prevent, or the hours your staff stop spending hunting for pallets?":"¿Dónde se crea el valor de verdad: en las mermas que evitas o en las horas que tu equipo deja de perder buscando palets?",
+    "What in your background makes you the right person to sell hardware into this industry?":"¿Qué hay en tu experiencia que te convierte en la persona adecuada para vender hardware a este sector?",
+    "The questions it asks back":"Las preguntas que te devuelve",
+    "The questions a veteran asks that your mum never would.":"Las preguntas que hace un veterano y que tu madre nunca haría.",
+    "It interviews you only as far as it needs, then it goes and researches the rest. <b>The questions it asks back are the ones a biased panel skips:</b> who exactly signs, where the value actually lands, and whether you are the founder to build this.":"Te entrevista solo hasta donde necesita, luego investiga el resto por su cuenta. <b>Las preguntas que te devuelve son las que un jurado con sesgo se salta:</b> quién firma exactamente, dónde aterriza el valor de verdad y si tú eres el fundador para construir esto.",
+    "Market questions it answers itself from research. It only asks you what only you can answer.":"Las preguntas de mercado las responde él mismo con investigación. Solo te pregunta lo que solo tú puedes responder.",
+    "The report":"El informe",
+    "A multi-dimensional read, with the evidence under every score.":"Una lectura multidimensional, con la evidencia debajo de cada puntuación.",
+    "Forwardable to an investor. Market dimensions render from research, the ones that need you show as questions until answered.":"Lista para reenviar a un inversor. Las dimensiones de mercado se generan con investigación; las que te necesitan aparecen como preguntas hasta que las respondes.",
+    "Problem clarity":"Claridad del problema",
+    "Strong":"Sólido",
+    "Clear job, clear pain. Spoilage and lost pallets are quantifiable.":"Trabajo claro, dolor claro. Las mermas y los palets perdidos son cuantificables.",
+    "Market size":"Tamaño de mercado",
+    "From research":"De la investigación",
+    "Mid-size EU food distribution, sized as market context, never a price on the idea.":"Distribución de alimentación mediana en la UE, dimensionada como contexto de mercado, nunca como precio de la idea.",
+    "Competition and white space":"Competencia y espacio libre",
+    "Two incumbents own the enterprise tier. The mid-size segment is open.":"Dos incumbentes dominan el tramo enterprise. El segmento mediano está abierto.",
+    "Target customer":"Cliente objetivo",
+    "Needs you":"Te necesita",
+    "Operations lead or owner? The answer changes the whole pitch.":"¿Responsable de operaciones o dueño? La respuesta cambia todo el pitch.",
+    "Demand validation":"Validación de demanda",
+    "To test":"Por probar",
+    "No evidence yet that distributors will pay a subscription for hardware.":"Aún no hay evidencia de que los distribuidores paguen una suscripción por hardware.",
+    "Founder-market fit":"Encaje fundador-mercado",
+    "Eight years inside logistics operations. You know the buyer.":"Ocho años dentro de operaciones logísticas. Conoces al comprador.",
+    "Macro and regulatory":"Macro y regulación",
+    "One flag":"Una alerta",
+    "Device data touches GDPR. Manageable, worth planning for early.":"Los datos del dispositivo tocan el RGPD. Manejable, conviene planificarlo pronto.",
+    "Comparable funding":"Financiación comparable",
+    "Context only":"Solo contexto",
+    "Ranges raised by similar seed companies, shown as context, not a valuation.":"Rangos levantados por empresas seed similares, mostrados como contexto, no como valoración.",
+    "<b>It is an evaluation, not a valuation.</b> It will never put a price on your idea. A pre-product idea has no defensible number, and a fake one is exactly what a real investor sees through. Money appears only as market context.":"<b>Es una evaluación, no una valoración.</b> Nunca le pondrá precio a tu idea. Una idea sin producto no tiene un número defendible, y uno falso es justo lo que un inversor de verdad detecta. El dinero aparece solo como contexto de mercado.",
+    "<b>Gap.</b> No cost-of-hardware model yet. It points you to the Studio, where the business plan and the model get drafted with you.":"<b>Hueco.</b> Todavía no hay modelo de coste del hardware. Te lleva al Estudio, donde el plan de negocio y el modelo se redactan contigo.",
+    "<b>Gap.</b> No distribution insight. It points to the GTM plan, starting with twelve distributor interviews.":"<b>Hueco.</b> Sin conocimiento de distribución. Te lleva al plan GTM, que empieza con doce entrevistas a distribuidores.",
+    "<b>Gap.</b> Positioning is wide. It points to Brand and positioning to narrow you to the mid-size wedge.":"<b>Hueco.</b> El posicionamiento es demasiado amplio. Te lleva a Marca y posicionamiento para acotarte a la cuña de los medianos.",
+    "The one thing to do next":"Lo único que hacer a continuación",
+    "Your riskiest assumption: that distributors will pay a subscription for hardware.":"Tu supuesto más arriesgado: que los distribuidores pagarán una suscripción por hardware.",
+    "Framed as a test you can run this week: ten discovery calls, a mock price, and a yes-or-no on a pilot. Bring the evidence back and the evaluation updates. It is a loop, not a verdict.":"Planteado como una prueba que puedes hacer esta semana: diez llamadas de descubrimiento, un precio simulado y un sí o no a un piloto. Trae la evidencia y la evaluación se actualiza. Es un bucle, no un veredicto.",
+    "Every claim in the report is checked by the Auditor before it reaches you.":"El Auditor comprueba cada afirmación del informe antes de que llegue a ti.",
+    "What the evaluation does not do.":"Lo que la evaluación no hace.",
+    "It will not tell you your idea is brilliant to make you feel good, and it will not put a number on it. It shows you what an investor would see, and the cheapest next test to remove the biggest risk. The read is free, and it is yours to forward.":"No te dirá que tu idea es brillante para hacerte sentir bien, ni le pondrá un número. Te enseña lo que vería un inversor y la prueba más barata para eliminar el mayor riesgo. La lectura es gratis, y es tuya para reenviar.",
+    "Stop asking your mum. Get the honest read.":"Deja de preguntarle a tu madre. Consigue la lectura honesta.",
+    "Free. Four things to start. The report ends on your next move.":"Gratis. Cuatro cosas para empezar. El informe termina en tu siguiente paso.",
+    "Run the free evaluation":"Haz la evaluación gratis",
+    "Companion":"Compañero",
+    "Startups":"Startups","Companies":"Empresas"
+  };
+  function norm(s){return s.replace(/\s+/g,' ').trim();}
+  function apply(){
+    if(L==='es'){
+      var els=document.body.querySelectorAll('*');
+      for(var i=0;i<els.length;i++){var el=els[i];var tn=el.tagName;if(tn==='SCRIPT'||tn==='STYLE')continue;var k=norm(el.innerHTML);if(Object.prototype.hasOwnProperty.call(ES,k))el.innerHTML=ES[k];}
+      var w=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT,null,false);var nodes=[],nd;while(nd=w.nextNode())nodes.push(nd);
+      for(var j=0;j<nodes.length;j++){var node=nodes[j];var pt=node.parentNode&&node.parentNode.tagName;if(pt==='SCRIPT'||pt==='STYLE')continue;var raw=node.nodeValue,t=norm(raw);if(Object.prototype.hasOwnProperty.call(ES,t))node.nodeValue=raw.replace(t,ES[t]);}
+      document.title="Firmgrove · La idea. Una lectura honesta antes de gastar un euro.";
+      var m=document.querySelector('meta[name="description"]'); if(m) m.setAttribute('content','Firmgrove evalúa tu idea de startup como lo haría un inversor, gratis. Cuatro cosas para empezar, preguntas más afiladas de vuelta, un informe multidimensional y la prueba a hacer a continuación. Nunca le pone precio a tu idea.');
+      var f=document.querySelector('footer'); if(f) f.innerHTML='Firmgrove &middot; El sistema operativo con IA que dirige tu startup &middot; <a href="startups.html">Para startups</a> &middot; <a href="companies.html">Para empresas</a> &middot; <a href="privacy.html">Privacidad</a> &middot; Interfaz mostrada con datos ilustrativos.';
+    }
+    document.querySelectorAll('[data-lang-btn]').forEach(function(b){
+      var l=b.getAttribute('data-lang-btn');
+      b.setAttribute('aria-pressed', l===L?'true':'false');
+      b.addEventListener('click',function(){localStorage.setItem('fg_lang',l); location.href=location.pathname+'?lang='+l;});
+    });
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',apply); else apply();
+})();
+</script>
+</body>
+</html>

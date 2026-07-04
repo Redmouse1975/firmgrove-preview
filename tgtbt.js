@@ -229,7 +229,7 @@ function init(host){
 
   // The feel, in four numbers. lean = degrees per step the side cards fall
   // away; drift = cards per second the collection wanders while idle.
-  var TUNE={ lean:34, spaceMul:1, glide:0.085, drift:0 };
+  var TUNE={ lean:34, spaceMul:1, glide:0.085, drift:0.06 };
   var reduced=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   var current=0, target=0, dragging=false, startX=0, startCur=0, moved=0, lastX=0, lastT=0, vel=0;

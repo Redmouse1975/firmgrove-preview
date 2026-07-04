@@ -71,7 +71,9 @@ var CSS=`
   .screen{width:min(920px,92vw);aspect-ratio:16/9;background:var(--night);border-radius:18px;overflow:hidden;position:relative;box-shadow:0 60px 120px -40px rgba(0,0,0,.6);animation:pop .35s cubic-bezier(.3,1.4,.4,1)}
   @keyframes pop{from{transform:scale(.92);opacity:0}to{transform:scale(1);opacity:1}}
   .screen .vidvig{position:absolute;inset:0}
+  .rail{display:none !important}
   .player.demo-mode .chrome{display:none}
+  .player.demo-mode .screen{aspect-ratio:auto;width:min(1000px,94vw);height:min(86vh,780px)}
   .screen .vidvig iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
   .screen .vidvig svg{width:100%;height:100%}
   .chrome{position:absolute;left:0;right:0;bottom:0;padding:14px 18px;display:flex;align-items:center;gap:14px;background:linear-gradient(180deg,transparent,rgba(10,12,18,.85))}
@@ -227,7 +229,7 @@ function init(host){
 
   // The feel, in four numbers. lean = degrees per step the side cards fall
   // away; drift = cards per second the collection wanders while idle.
-  var TUNE={ lean:34, spaceMul:1, glide:0.085, drift:0.06 };
+  var TUNE={ lean:34, spaceMul:1, glide:0.085, drift:0 };
   var reduced=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   var current=0, target=0, dragging=false, startX=0, startCur=0, moved=0, lastX=0, lastT=0, vel=0;

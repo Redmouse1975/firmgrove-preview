@@ -14,8 +14,7 @@ Firmgrove replaces the sprawl of disconnected startup and operations tools with 
 ## Editions and pricing
 
 - Idea — Free. Evaluate an idea end to end: market opportunity, competitive positioning, gaps, and recommended next steps.
-- Startup — €250 per month, flat, at any team size. The full startup toolkit to raise and operate.
-- Completo — from €500 per month, priced by team size. The whole company run on one brain.
+- Startup — $250 per month, flat, at any team size. The full startup toolkit to raise and operate. Founders on the launch waitlist keep it at $100 per month for their first 12 months.
 
 ## Key facts
 
@@ -23,7 +22,7 @@ Firmgrove replaces the sprawl of disconnected startup and operations tools with 
 - Human-in-the-loop: nothing external ships without passing an audit and a human approval.
 - No tool to learn: the interface is conversation.
 - Bilingual: English and Spanish.
-- Launching August 2026. Founding seats are open now.
+- Launches August 1, 2026. The founder waitlist is open now; everyone on it keeps the founder price ($100/month for the first 12 months).
 
 ## Links
 

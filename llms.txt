@@ -1,0 +1,32 @@
+# Firmgrove
+
+> Firmgrove is the operating system that runs your company. One AI brain and one companion do the operational groundwork — from fundraising and finance to marketing, sales, and operations — so founders and teams spend their time deciding and building, not assembling their company into software. Everything the system produces externally passes an audit and a human approval before it ships. Built for startups and for established companies. Available in English and Spanish.
+
+## What it is
+
+Firmgrove replaces the sprawl of disconnected startup and operations tools with a single brain and a companion you talk to in plain language. You describe what you need; Firmgrove drafts the deck, the model, the data room, the investor update, the campaign, or the workflow. You approve, edit, or decline — you decide, it does the groundwork. Because everything comes from one source of truth, your numbers agree everywhere and diligence stops being a fire drill.
+
+## Who it's for
+
+- Startup founders — from first idea, through the raise, to running the company.
+- Established companies — sales, finance, marketing, and operations on one brain, with no new software to roll out and no training project.
+
+## Editions and pricing
+
+- Idea — Free. Evaluate an idea end to end: market opportunity, competitive positioning, gaps, and recommended next steps.
+- Startup — $250 per month, flat, at any team size. The full startup toolkit to raise and operate. Founders on the launch waitlist keep it at $100 per month for their first 12 months.
+
+## Key facts
+
+- One brain, one source of truth: deck, model, and investor update all reconcile.
+- Human-in-the-loop: nothing external ships without passing an audit and a human approval.
+- No tool to learn: the interface is conversation.
+- Bilingual: English and Spanish.
+- Launches August 1, 2026. The founder waitlist is open now; everyone on it keeps the founder price ($100/month for the first 12 months).
+
+## Links
+
+- Home: https://firmgrove.com/
+- For startups: https://firmgrove.com/startups
+- For established companies: https://firmgrove.com/companies
+- Privacy: https://firmgrove.com/privacy

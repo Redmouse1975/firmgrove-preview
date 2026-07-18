@@ -1,0 +1,8 @@
+# Firmgrove — https://firmgrove.com
+# Search and AI crawlers welcome. GEO: assistants may read /llms.txt for a
+# concise, factual summary of what Firmgrove is, who it's for, and pricing.
+
+User-agent: *
+Allow: /
+
+Sitemap: https://firmgrove.com/sitemap.xml

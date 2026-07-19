@@ -56,10 +56,14 @@ const THEMES={
    `ce(field, val, tag, cls, opts)` emits an editable node.        */
 let EDIT=true;
 function ceAttr(){return EDIT?' contenteditable="true" spellcheck="false"':'';}
+// disp() resolves {{tokens}} at RENDER time against the live brand, so a field
+// that still holds a token (never edited) tracks brand changes; once the user
+// edits it, harvestField stores literal text and it stops tracking.
+function disp(v){return (typeof D!=='undefined'&&D&&D.brand)?fillTokens(v,D.brand):String(v==null?'':v);}
 function ce(f,val,tag='div',cls='',ph=''){
-  return `<${tag} class="ce ${cls}" data-f="${f}"${ceAttr()}${ph?` data-ph="${esc(ph)}"`:''}>${esc(val)}</${tag}>`;}
+  return `<${tag} class="ce ${cls}" data-f="${f}"${ceAttr()}${ph?` data-ph="${esc(ph)}"`:''}>${esc(disp(val))}</${tag}>`;}
 function cei(f,i,val,tag='span',cls='',k=''){ // array item
-  return `<${tag} class="ce ${cls}" data-f="${f}" data-i="${i}"${k?` data-k="${k}"`:''}${ceAttr()}>${esc(val)}</${tag}>`;}
+  return `<${tag} class="ce ${cls}" data-f="${f}" data-i="${i}"${k?` data-k="${k}"`:''}${ceAttr()}>${esc(disp(val))}</${tag}>`;}
 
 function chart(points,unit){
   const w=680,h=260,pad=34,n=points.length,max=Math.max(...points.map(p=>+p.value||0),1);
@@ -256,11 +260,12 @@ function defaultBrand(){return {company:'Northwind',tagline:'The revenue layer f
   stage:'Seed',sector:'SaaS',logo:null,themeKey:'editorial'};}
 
 function fillTokens(str,brand){
+  const b=brand||{};
   return String(str==null?'':str)
-    .replace(/\{\{company\}\}/g,brand.company).replace(/\{\{tagline\}\}/g,brand.tagline)
-    .replace(/\{\{founder\}\}/g,brand.founder).replace(/\{\{email\}\}/g,brand.email)
-    .replace(/\{\{url\}\}/g,brand.url).replace(/\{\{milestone\}\}/g,brand.milestone)
-    .replace(/\{\{stage\}\}/g,brand.stage).replace(/\{\{sector\}\}/g,brand.sector);
+    .replace(/\{\{company\}\}/g,b.company||'').replace(/\{\{tagline\}\}/g,b.tagline||'')
+    .replace(/\{\{founder\}\}/g,b.founder||'').replace(/\{\{email\}\}/g,b.email||'')
+    .replace(/\{\{url\}\}/g,b.url||'').replace(/\{\{milestone\}\}/g,b.milestone||'')
+    .replace(/\{\{stage\}\}/g,b.stage||'').replace(/\{\{sector\}\}/g,b.sector||'');
 }
 function deepFill(o,brand){
   if(typeof o==='string')return fillTokens(o,brand);
@@ -274,7 +279,7 @@ function buildDeck(tpl,brand){
   brand.themeKey=th; brand.stage=tpl.stage!=='Any'?tpl.stage:brand.stage; brand.sector=tpl.sector!=='Any'?tpl.sector:brand.sector;
   const slides=tpl.slides.map(type=>{
     const def=SLIDES[type];
-    return {id:uid(),type,name:def.label,lay:def.lay,blocks:def.blocks().map(b=>({id:uid(),type:b.type,data:deepFill(b.data,brand)}))};
+    return {id:uid(),type,name:def.label,lay:def.lay,blocks:def.blocks().map(b=>({id:uid(),type:b.type,data:clone(b.data)}))};
   });
   return {name:brand.company+' — '+tpl.name,template:tpl.id,brand,slides};
 }
@@ -393,7 +398,14 @@ function renderInspector(){
   $$('.insp-tab').forEach(t=>t.classList.toggle('on',t.dataset.insp===inspTab));
 }
 function deckWords(){return D.slides.reduce((n,s)=>n+slideWords(s),0);}
-function slideWords(s){let n=0;s.blocks.forEach(b=>{const t=JSON.stringify(b.data).replace(/[^a-zA-Z0-9\s]/g,' ');n+=t.split(/\s+/).filter(w=>w.length>1).length;});return n;}
+function slideWords(s){let n=0;s.blocks.forEach(b=>{n+=countText(b.data);});return n;}
+// Count real words; resolve tokens, skip image data-URIs so a base64 src never inflates the meter.
+function countText(o){let n=0;const walk=(v,key)=>{
+  if(typeof v==='string'){if(key==='src'||v.slice(0,5)==='data:')return;
+    n+=fillTokens(v,D.brand).split(/\s+/).filter(w=>w.replace(/[^a-zA-Z0-9]/g,'').length>1).length;}
+  else if(Array.isArray(v))v.forEach(x=>walk(x,key));
+  else if(v&&typeof v==='object')for(const k in v)walk(v[k],k);};
+  walk(o,''); return n;}
 function coachHTML(){
   const slide=D.slides[cur], def=SLIDES[slide.type], c=def.coach;
   const w=slideWords(slide), over=w>def.coach.words*1.6;
@@ -459,8 +471,7 @@ function deckHTML(){
     <div class="field"><label>Sector</label><input type="text" data-brand="sector" value="${esc(b.sector)}"></div>
     <div class="field"><label>18–24 month milestone (for the ask)</label><textarea data-brand="milestone">${esc(b.milestone)}</textarea></div>
     <div style="border-top:1px solid var(--line);margin:4px 0 14px"></div>
-    <button class="btn" style="width:100%;justify-content:center;margin-bottom:8px" id="applyBrandAll">Re-apply brand to token fields</button>
-    <p style="font-size:11.5px;color:var(--faint);line-height:1.5">Editing a field here updates the footer and any slide that still uses the matching placeholder. Text you have already customized on a slide is never overwritten.</p>
+    <p style="font-size:11.5px;color:var(--faint);line-height:1.5">These fields flow live into every slide that still uses the matching placeholder — the title, contact, ask and footer update as you type. Once you edit that text directly on a slide, your wording is kept and stops tracking.</p>
   </div>`;
 }
 
@@ -478,22 +489,19 @@ function fitZoom(){
 
 /* ---------------- EDIT: harvest DOM -> model ---------------- */
 let harvestTimer=null;
-function harvest(){
-  const c=$('#canvas'), slide=D.slides[cur];
-  slide.blocks.forEach(b=>{
-    const bEl=c.querySelector(`.blk[data-bid="${b.id}"]`); if(!bEl)return;
-    bEl.querySelectorAll('[data-f]').forEach(f=>{
-      const key=f.dataset.f, i=f.dataset.i, k=f.dataset.k, val=f.innerText.replace(/ /g,' ').trim();
-      if(f.classList.contains('up-img'))return;
-      if(i!==undefined){
-        if(!Array.isArray(b.data[key]))b.data[key]=[];
-        if(key==='rowvals'){ // competition table cell
-          const ri=+i; b.data.rows[ri]=b.data.rows[ri]||{vals:[]}; b.data.rows[ri].vals[+k]=val;
-        }else if(k){ b.data[key][i]=Object.assign({},b.data[key][i]); b.data[key][i][k]=val; }
-        else b.data[key][i]=val;
-      }else b.data[key]=val;
-    });
-  });
+// Harvest ONLY the edited element's field. Untouched fields keep whatever they
+// held (including {{tokens}}), so brand changes still propagate to them.
+function harvestField(el){
+  if(!el||el.classList.contains('up-img'))return;
+  const bEl=el.closest('.blk[data-bid]'); if(!bEl)return;
+  const b=(D.slides[cur].blocks||[]).find(x=>x.id===bEl.dataset.bid); if(!b)return;
+  const key=el.dataset.f, i=el.dataset.i, k=el.dataset.k, val=el.innerText.replace(/\u00a0/g,' ').trim();
+  if(i!==undefined){
+    if(key==='rowvals'){ const ri=+i; b.data.rows=b.data.rows||[]; b.data.rows[ri]=b.data.rows[ri]||{vals:[]}; b.data.rows[ri].vals[+k]=val; }
+    else { if(!Array.isArray(b.data[key]))b.data[key]=[];
+      if(k){ b.data[key][+i]=Object.assign({},b.data[key][+i]); b.data[key][+i][k]=val; }
+      else b.data[key][+i]=val; }
+  } else b.data[key]=val;
   saveSoon(); updateReelThumb(cur);
 }
 function updateReelThumb(i){
@@ -531,11 +539,11 @@ function defaultBlockData(type){
     image:{src:null,caption:'Caption'},ask:{amount:'$—M',round:'Seed round',detail:'To reach the next milestone.'},
     contact:{name:'{{founder}}',email:'{{email}}',url:'{{url}}'},spacer:{}
   };
-  return deepFill(samples[type]||{text:''},D.brand);
+  return clone(samples[type]||{text:''});
 }
 function addSlide(type,at){
   const def=SLIDES[type];
-  const s={id:uid(),type,name:def.label,lay:def.lay,blocks:def.blocks().map(b=>({id:uid(),type:b.type,data:deepFill(b.data,D.brand)}))};
+  const s={id:uid(),type,name:def.label,lay:def.lay,blocks:def.blocks().map(b=>({id:uid(),type:b.type,data:clone(b.data)}))};
   at=at==null?cur+1:at;
   D.slides.splice(at,0,s); cur=at; sel=null;
   fullRender(); saveSoon(); toast(def.label+' slide added');
@@ -611,8 +619,8 @@ function renderGallery(){
       <button class="btn primary tpl-use" data-use="${tpl.id}">Use this template</button></div>`;
     grid.appendChild(card);
     // mini preview = title slide
-    const previewDeck={brand:Object.assign({},brand,{themeKey:tpl.theme}),slides:[{id:'x',type:'title',lay:'center',name:'Title',
-      blocks:SLIDES.title.blocks().map(b=>({id:uid(),type:b.type,data:deepFill(b.data,Object.assign({},brand,{stage:tpl.stage,sector:tpl.sector}))}))}]};
+    const previewDeck={brand:Object.assign({},brand,{themeKey:tpl.theme,stage:tpl.stage!=='Any'?tpl.stage:brand.stage,sector:tpl.sector!=='Any'?tpl.sector:brand.sector}),slides:[{id:'x',type:'title',lay:'center',name:'Title',
+      blocks:SLIDES.title.blocks().map(b=>({id:uid(),type:b.type,data:clone(b.data)}))}]};
     const mini=card.querySelector('.mini');
     const savedD=D; D=previewDeck; mini.innerHTML=renderSlideInner(previewDeck.slides[0],false); applyThemeTo(mini,tpl.theme,brand); D=savedD;
     requestAnimationFrame(()=>{const w=card.querySelector('.tpl-prev').clientWidth; miniScale(null,mini,w);});
@@ -716,7 +724,7 @@ function bind(){
 
   // canvas editing (delegated)
   const c=$('#canvas');
-  c.addEventListener('input',e=>{if(e.target.classList.contains('ce')){clearTimeout(harvestTimer);harvestTimer=setTimeout(harvest,250);}});
+  c.addEventListener('input',e=>{if(e.target.classList.contains('ce')){const el=e.target;clearTimeout(harvestTimer);harvestTimer=setTimeout(()=>harvestField(el),250);}});
   c.addEventListener('click',e=>{
     const add=e.target.closest('[data-additem]'); if(add){e.preventDefault();addArrayItem(add.dataset.additem);return;}
     const upi=e.target.closest('.up-img'); if(upi){pickImageFor(upi.closest('.blk').dataset.bid,'src');return;}
@@ -733,8 +741,7 @@ function bind(){
 
   // inspector delegated (brand/deck)
   $('#inspBody').addEventListener('input',e=>{
-    const bf=e.target.dataset.brand; if(bf){D.brand[bf]=e.target.value;if(bf==='company'){/*keep*/}renderCanvas();updateReelThumb(cur);saveSoon();
-      if(bf==='company'||bf==='sector'||bf==='stage')refreshTokenFields(bf);}
+    const bf=e.target.dataset.brand; if(bf){D.brand[bf]=e.target.value;renderCanvas();renderReel();saveSoon();}
     const col=e.target.dataset.color; if(col){D.brand[col]=e.target.value;const row=e.target.closest('.colorrow');if(row)row.querySelector('.cv').textContent=e.target.value;renderCanvas();renderReel();saveSoon();}
   });
   $('#inspBody').addEventListener('change',e=>{const bf=e.target.dataset.brand;if(bf&&e.target.tagName==='SELECT'){D.brand[bf]=e.target.value;renderCanvas();saveSoon();}});
